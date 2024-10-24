@@ -1,0 +1,14 @@
+{
+  "name": "@examples/lit",
+  "private": true,
+  "scripts": {
+    "dev": "rsbuild dev --open",
+    "build": "rsbuild build",
+    "preview": "rsbuild preview"
+  },
+  "devDependencies": {
+    "@rsbuild/core": "workspace:*",
+    "lit": "^3.2.1",
+    "typescript": "^5.6.3"
+  }
+}

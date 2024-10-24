@@ -1,0 +1,139 @@
+# server.publicDir
+
+- **类型：**
+
+```ts
+type PublicDirOptions = {
+  name?: string;
+  copyOnBuild?: boolean;
+  watch?: boolean;
+};
+type PublicDir = false | PublicDirOptions | PublicDirOptions[];
+```
+
+- **默认值：**
+
+```js
+const defaultValue = {
+  name: 'public',
+  copyOnBuild: true,
+  watch: false,
+};
+```
+
+默认情况下，Rsbuild 会将 `public` 目录作为静态资源服务的文件夹，该目录中的文件可在 [server.base](/config/server/base) 路径下访问（默认 `/`）。
+
+> 相关文档：[public 目录](/guide/basic/static-assets#public-目录)。
+
+## 选项
+
+### name
+
+- **类型：** `string`
+- **默认值：** `'public'`
+
+public 目录名称。`name` 的值可以设置为相对路径或绝对路径，相对路径将会相对于项目根目录进行解析。
+
+- 相对路径示例：
+
+```ts
+export default {
+  server: {
+    publicDir: {
+      name: '../some-public',
+    },
+  },
+};
+```
+
+- 绝对路径示例：
+
+```ts
+import path from 'node:path';
+
+export default {
+  server: {
+    publicDir: {
+      name: path.join(__dirname, '../some-public'),
+    },
+  },
+};
+```
+
+### copyOnBuild
+
+- **类型：** `boolean`
+- **默认值：** `true`
+
+在生产构建时，是否将文件从 public 目录复制到构建产物目录。
+
+比如关闭 `copyOnBuild`：
+
+```ts
+export default {
+  server: {
+    publicDir: {
+      copyOnBuild: false,
+    },
+  },
+};
+```
+
+需要注意的是，将 `copyOnBuild` 的值为 false 后，如果执行 `rsbuild preview` 进行生产环境预览，将无法访问对应的静态资源文件。
+
+:::tip
+在 dev 构建时，如果你需要拷贝一些静态资源到构建产物目录，可以使用 [output.copy](/config/output/copy) 选项代替。
+:::
+
+### watch
+
+- **类型：** `boolean`
+- **默认值：** `false`
+
+是否监听 public 目录，并在文件发生变化时重新加载页面。
+
+设置 `watch` 为 `true` 后，开发服务器会监听指定公共目录下的文件变化，并在文件发生变化时重新加载页面：
+
+```ts
+export default {
+  server: {
+    publicDir: {
+      watch: true,
+    },
+  },
+};
+```
+
+需要注意的是，`watch` 选项仅在开发模式下有效。如果 [dev.hmr](/config/dev/hmr) 和 [dev.liveReload](/config/dev/live-reload) 都设置为 false，则 `watch` 将被忽略。
+
+## 多目录
+
+`server.publicDir` 可以配置为一个数组，这允许你将多个目录作为静态资源服务的文件夹：
+
+```ts
+export default {
+  server: {
+    publicDir: [
+      {
+        name: 'public',
+      },
+      {
+        name: 'assets',
+        watch: false,
+      },
+    ],
+  },
+};
+```
+
+## 禁用
+
+你可以将 `publicDir` 设置成 `false` 来禁用静态资源服务：
+
+```ts
+export default {
+  server: {
+    publicDir: false,
+  },
+};
+```

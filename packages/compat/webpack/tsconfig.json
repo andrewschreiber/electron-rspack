@@ -1,0 +1,16 @@
+{
+  "extends": "@rsbuild/config/tsconfig",
+  "compilerOptions": {
+    "declarationDir": "./dist-types",
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "rootDir": "src",
+    "composite": true
+  },
+  "references": [
+    {
+      "path": "../../core"
+    }
+  ],
+  "include": ["src"]
+}

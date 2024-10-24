@@ -1,0 +1,19 @@
+{
+  "extends": "@rsbuild/config/tsconfig",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "paths": {
+      "@theme": ["./theme"],
+      "@components/*": ["./theme/components/*"],
+      "@zh/*": ["./docs/zh/*"],
+      "@en/*": ["./docs/en/*"],
+      "i18n": ["./i18n.json"]
+    },
+    "baseUrl": "./"
+  },
+  "mdx": {
+    "checkMdx": true
+  },
+  "include": ["docs", "rspress.config.ts", "theme", "env.d.ts"]
+}

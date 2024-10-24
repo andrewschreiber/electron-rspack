@@ -1,0 +1,172 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`plugin-split-chunks > should allow forceSplitting to be an object 1`] = `
+{
+  "optimization": {
+    "splitChunks": {
+      "cacheGroups": {
+        "axios": {
+          "chunks": "all",
+          "enforce": true,
+          "name": "axios",
+          "priority": 0,
+          "test": /axios/,
+        },
+      },
+      "chunks": "all",
+    },
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-split-chunks > should not split chunks when target is node 1`] = `
+{
+  "optimization": {
+    "splitChunks": false,
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-split-chunks > should set all-in-one config 1`] = `
+{
+  "optimization": {
+    "splitChunks": false,
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-split-chunks > should set custom config 1`] = `
+{
+  "optimization": {
+    "splitChunks": {
+      "cacheGroups": {
+        "force-split-0": {
+          "chunks": "all",
+          "enforce": true,
+          "name": "force-split-0",
+          "priority": 0,
+          "test": /react/,
+        },
+      },
+      "chunks": "all",
+    },
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-split-chunks > should set single-size config 1`] = `
+{
+  "optimization": {
+    "splitChunks": {
+      "cacheGroups": {},
+      "chunks": "all",
+      "maxSize": 5000,
+      "minSize": 1000,
+    },
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-split-chunks > should set single-vendor config 1`] = `
+{
+  "optimization": {
+    "splitChunks": {
+      "cacheGroups": {
+        "singleVendor": {
+          "chunks": "all",
+          "enforce": true,
+          "name": "vendor",
+          "priority": 0,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+    },
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-split-chunks > should set split-by-experience config 1`] = `
+{
+  "optimization": {
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
+        },
+        "lib-polyfill": {
+          "name": "lib-polyfill",
+          "priority": 0,
+          "test": /node_modules\\[\\\\\\\\/\\]\\(\\?:tslib\\|core-js\\|@swc\\[\\\\\\\\/\\]helpers\\)\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+    },
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-split-chunks > should set split-by-experience config correctly when polyfill is off 1`] = `
+{
+  "optimization": {
+    "splitChunks": {
+      "cacheGroups": {
+        "lib-axios": {
+          "name": "lib-axios",
+          "priority": 0,
+          "test": /node_modules\\[\\\\\\\\/\\]axios\\(-\\.\\+\\)\\?\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+    },
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-split-chunks > should set split-by-module config 1`] = `
+{
+  "optimization": {
+    "splitChunks": {
+      "cacheGroups": {
+        "vendors": {
+          "name": [Function],
+          "priority": -9,
+          "test": /\\[\\\\\\\\/\\]node_modules\\[\\\\\\\\/\\]/,
+        },
+      },
+      "chunks": "all",
+      "maxInitialRequests": Infinity,
+      "minSize": 0,
+    },
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;

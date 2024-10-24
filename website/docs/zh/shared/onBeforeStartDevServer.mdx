@@ -1,0 +1,11 @@
+在启动开发服务器前调用。
+
+- **类型：**
+
+```ts
+function OnBeforeStartDevServer(
+  callback: (params: {
+    environments: Record<string, EnvironmentContext>;
+  }) => Promise<void> | void,
+): void;
+```

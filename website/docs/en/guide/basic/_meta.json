@@ -1,0 +1,20 @@
+[
+  "cli",
+  "server",
+  "output-files",
+  "css-usage",
+  "static-assets",
+  "json-files",
+  "wasm-assets",
+  "configure-rspack",
+  "configure-rsbuild",
+  "configure-swc",
+  "html-template",
+  "css-modules",
+  "typescript",
+  "tailwindcss",
+  "unocss",
+  "web-workers",
+  "static-deploy",
+  "upgrade-rsbuild"
+]

@@ -1,0 +1,121 @@
+# Vue 插件
+
+import { SourceCode } from 'rspress/theme';
+
+<SourceCode href="https://github.com/web-infra-dev/rsbuild/tree/main/packages/plugin-vue" />
+
+Vue 插件提供了对 Vue 3 SFC（单文件组件）的支持，插件内部集成了 [vue-loader](https://vue-loader.vuejs.org/) v17 版本。
+
+:::tip
+对于 Vue 3 JSX / TSX 语法，请使用 [Vue JSX 插件](https://github.com/rspack-contrib/rsbuild-plugin-vue-jsx)。
+:::
+
+## 快速开始
+
+### 安装插件
+
+你可以通过如下的命令安装插件:
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs command="add @rsbuild/plugin-vue -D" />
+
+### 注册插件
+
+你可以在 `rsbuild.config.ts` 文件中注册插件：
+
+```ts title="rsbuild.config.ts"
+import { pluginVue } from '@rsbuild/plugin-vue';
+
+export default {
+  plugins: [pluginVue()],
+};
+```
+
+注册插件后，你可以在代码中引入 `*.vue` 单文件组件。
+
+## 选项
+
+如果你需要自定义 Vue 的编译行为，可以使用以下配置项。
+
+### vueLoaderOptions
+
+传递给 `vue-loader` 的选项，请查阅 [vue-loader 文档](https://vue-loader.vuejs.org/) 来了解具体用法。
+
+- **类型：** `VueLoaderOptions`
+- **默认值：**
+
+```js
+const defaultOptions = {
+  compilerOptions: {
+    preserveWhitespace: false,
+  },
+  experimentalInlineMatchResource: true,
+};
+```
+
+- **示例：**
+
+```ts
+pluginVue({
+  vueLoaderOptions: {
+    hotReload: false,
+  },
+});
+```
+
+### splitChunks
+
+在 [chunkSplit.strategy](/config/performance/chunk-split) 设置为 `split-by-experience` 时，Rsbuild 默认会自动将 `vue` 和 `router` 相关的包拆分为单独的 chunk:
+
+- `lib-vue.js`：包含 vue，vue-loader，以及 vue 的子依赖（@vue/shared，@vue/reactivity，@vue/runtime-dom，@vue/runtime-core）。
+- `lib-router.js`：包含 vue-router。
+
+该选项用于控制这一行为，决定是否需要将 `vue` 和 `router` 相关的包拆分为单独的 chunk。
+
+- **类型：**
+
+```ts
+type SplitVueChunkOptions = {
+  vue?: boolean;
+  router?: boolean;
+};
+```
+
+- **默认值：**
+
+```ts
+const defaultOptions = {
+  vue: true,
+  router: true,
+};
+```
+
+- **示例：**
+
+```ts
+pluginVue({
+  splitChunks: {
+    vue: false,
+    router: false,
+  },
+});
+```
+
+## 常见问题
+
+### /deep/ 选择器导致编译报错
+
+`/deep/` 是从 Vue v2.7 开始废弃的用法，它不是一个合法的 CSS 语法，因此在编译时，Lightning CSS 等 CSS 编译工具会抛出错误。
+
+你可以使用 `:deep()` 代替它，更多用法参考 [Vue - Deep Selectors](https://vuejs.org/api/sfc-css-features.html#deep-selectors)。
+
+```html
+<style scoped>
+  .a :deep(.b) {
+    /* ... */
+  }
+</style>
+```
+
+> 你也可以参考 [Vue - RFC 0023](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0023-scoped-styles-changes.md) 了解更多。

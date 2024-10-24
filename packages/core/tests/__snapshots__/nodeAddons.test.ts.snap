@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`plugin-node-addons > should add node addons rule properly 1`] = `
+{
+  "module": {
+    "rules": [
+      {
+        "test": /\\\\\\.node\\$/,
+        "use": [
+          {
+            "loader": "<ROOT>/packages/core/dist/transformRawLoader.cjs",
+            "options": {
+              "getEnvironment": [Function],
+              "id": "rsbuild-transform-0",
+            },
+          },
+        ],
+      },
+    ],
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;

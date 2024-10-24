@@ -1,0 +1,80 @@
+# performance.printFileSize
+
+- **Type:**
+
+```ts
+type PrintFileSizeOptions =
+  | {
+      /**
+       * whether to print total size
+       */
+      total?: boolean;
+      /**
+       * whether to print size of each file
+       */
+      detail?: boolean;
+      /**
+       * whether to print gzip-compressed size
+       */
+      compressed?: boolean;
+    }
+  | boolean;
+```
+
+- **Default:** `true`
+
+Whether to print the file sizes after production build.
+
+## Default Outputs
+
+The default output log is as follows:
+
+```bash
+  File (web)                              Size        Gzip
+  dist/static/js/lib-react.b0714b60.js    140.4 kB    45.0 kB
+  dist/static/js/index.f3fde9c7.js        1.9 kB      0.97 kB
+  dist/index.html                         0.39 kB     0.25 kB
+  dist/static/css/index.2960ac62.css      0.35 kB     0.26 kB
+
+  Total: 143.0 kB (gzip: 46.3 kB)
+```
+
+## Disable Outputs
+
+If you don't want to print any information, you can disable it by setting `printFileSize` to `false`:
+
+```ts
+export default {
+  performance: {
+    printFileSize: false,
+  },
+};
+```
+
+## Custom Outputs
+
+You can customize the output format through the options.
+
+- If you don't need to output the size of each static asset, you can set `detail` to false. In this case, only the total size will be output:
+
+```ts
+export default {
+  performance: {
+    printFileSize: {
+      detail: false,
+    },
+  },
+};
+```
+
+- If you don't need to output the gzipped size, you can set `compressed` to false. This can save some gzip computation time for large projects:
+
+```ts
+export default {
+  performance: {
+    printFileSize: {
+      compressed: false,
+    },
+  },
+};
+```

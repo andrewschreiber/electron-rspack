@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "name": "@e2e/svelte",
+  "version": "1.0.0",
+  "dependencies": {
+    "svelte": "^4.2.19"
+  },
+  "devDependencies": {
+    "less": "^4.2.0",
+    "sass": "^1.80.3",
+    "stylus": "0.64.0"
+  }
+}

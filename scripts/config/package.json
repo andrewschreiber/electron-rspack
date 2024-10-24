@@ -1,0 +1,9 @@
+{
+  "name": "@rsbuild/config",
+  "version": "1.0.1",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "18.x",
+    "typescript": "^5.6.3"
+  }
+}

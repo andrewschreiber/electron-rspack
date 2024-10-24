@@ -1,0 +1,59 @@
+# tools.swc
+
+- **Type:** `Object | Function`
+- **Default:**
+
+```js
+const defaultOptions = {
+  jsc: {
+    externalHelpers: true,
+    parser: {
+      tsx: false,
+      syntax: 'typescript',
+      decorators: true,
+    },
+  },
+  isModule: 'unknown',
+  // ...some other conditional options
+};
+```
+
+You can set the options of [builtin:swc-loader](https://rspack.dev/guide/features/builtin-swc-loader) through `tools.swc`.
+
+> Refer to [Configure SWC](/guide/basic/configure-swc) for more details.
+
+## Object Type
+
+`tools.swc` can be configured as an object, this object will be deeply merged with the built-in `builtin:swc-loader` option.
+
+```js
+export default {
+  tools: {
+    swc: {
+      jsc: {
+        externalHelpers: false,
+      },
+    },
+  },
+};
+```
+
+## Function Type
+
+`tools.swc` can also be configured as a function, this function takes one argument, which is the built-in `builtin:swc-loader` option. You can modify this object then return a new config. For example:
+
+```js
+export default {
+  tools: {
+    swc: (config) => {
+      config.jsc ||= {};
+      config.jsc.externalHelpers = false;
+      return config;
+    },
+  },
+};
+```
+
+:::tip
+The object returned by the `tools.swc` function will be used directly as the final `builtin:swc-loader` option, and will not be merged with the built-in `builtin:swc-loader` option anymore.
+:::

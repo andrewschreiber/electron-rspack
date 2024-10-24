@@ -1,0 +1,182 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`plugin-output > output config should works when target is node 1`] = `
+{
+  "output": {
+    "chunkFilename": "bundle/foo.js",
+    "filename": "bundle/foo.js",
+    "hashFunction": "xxhash64",
+    "library": {
+      "type": "commonjs2",
+    },
+    "path": "<ROOT>/packages/core/tests/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-output > should allow to custom server directory with distPath.root 1`] = `
+{
+  "output": {
+    "chunkFilename": "[name].js",
+    "filename": "[name].js",
+    "hashFunction": "xxhash64",
+    "library": {
+      "type": "commonjs2",
+    },
+    "path": "<ROOT>/packages/core/tests/dist/server",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;
+
+exports[`plugin-output > should allow to set distPath.js and distPath.css to empty string 1`] = `
+{
+  "output": {
+    "chunkFilename": "async/[name].js",
+    "filename": "[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/packages/core/tests/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+    CssExtractRspackPlugin {
+      "options": {
+        "chunkFilename": "async/[name].css",
+        "filename": "[name].css",
+        "ignoreOrder": true,
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugin-output > should allow to use copy plugin 1`] = `
+{
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/packages/core/tests/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+    CopyRspackPlugin {
+      "_args": [
+        {
+          "patterns": [
+            {
+              "from": "test",
+            },
+          ],
+        },
+      ],
+      "affectedHooks": undefined,
+      "name": "CopyRspackPlugin",
+    },
+    CssExtractRspackPlugin {
+      "options": {
+        "chunkFilename": "static/css/async/[name].css",
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugin-output > should allow to use copy plugin with multiple config 1`] = `
+{
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/packages/core/tests/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+    CopyRspackPlugin {
+      "_args": [
+        {
+          "patterns": [
+            {
+              "from": "test",
+            },
+            "src/assets/",
+            "tests/",
+          ],
+        },
+      ],
+      "affectedHooks": undefined,
+      "name": "CopyRspackPlugin",
+    },
+    CssExtractRspackPlugin {
+      "options": {
+        "chunkFilename": "static/css/async/[name].css",
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugin-output > should allow to use filename.js to modify filename 1`] = `
+{
+  "output": {
+    "chunkFilename": "static/js/async/foo.js",
+    "filename": "static/js/foo.js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/packages/core/tests/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+    CssExtractRspackPlugin {
+      "options": {
+        "chunkFilename": "static/css/async/[name].css",
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+      },
+    },
+  ],
+}
+`;
+
+exports[`plugin-output > should set output correctly 1`] = `
+{
+  "output": {
+    "chunkFilename": "static/js/async/[name].js",
+    "filename": "static/js/[name].js",
+    "hashFunction": "xxhash64",
+    "path": "<ROOT>/packages/core/tests/dist",
+    "pathinfo": false,
+    "publicPath": "/",
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+    CssExtractRspackPlugin {
+      "options": {
+        "chunkFilename": "static/css/async/[name].css",
+        "filename": "static/css/[name].css",
+        "ignoreOrder": true,
+      },
+    },
+  ],
+}
+`;

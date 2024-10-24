@@ -1,0 +1,259 @@
+# React
+
+在这篇文档中，你可以了解到如何基于 Rsbuild 来构建一个 React 应用。
+
+## 创建 React 项目
+
+你可以使用 `create-rsbuild` 来创建一个 Rsbuild + React 的项目，调用以下命令：
+
+import { PackageManagerTabs } from '@theme';
+
+<PackageManagerTabs
+  command={{
+    npm: 'npm create rsbuild@latest',
+    yarn: 'yarn create rsbuild',
+    pnpm: 'pnpm create rsbuild@latest',
+    bun: 'bun create rsbuild@latest',
+  }}
+/>
+
+然后在 `Select framework` 时选择 `React` 即可。
+
+## 在已有项目中使用 React
+
+为了能够编译 React，你需要注册 Rsbuild 的 [React 插件](/plugins/list/plugin-react)，插件会自动添加 React 构建所需的配置。
+
+例如，在 `rsbuild.config.ts` 中注册：
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+
+export default defineConfig({
+  plugins: [pluginReact()],
+});
+```
+
+:::tip
+对于使用 Create React App 的项目，可以参考 [CRA 迁移指南](/guide/migration/cra)。
+:::
+
+## 使用 SVGR
+
+Rsbuild 支持调用 [SVGR](https://react-svgr.com/)，将 SVG 图片转换为一个 React 组件使用。
+
+如果你需要使用 SVGR，需要注册 Rsbuild 的 [SVGR 插件](/plugins/list/plugin-svgr)。
+
+## React Fast Refresh
+
+Rsbuild 使用 React 官方的 [Fast Refresh](https://www.npmjs.com/package/react-refresh) 能力来进行组件热更新。
+
+注意 React Refresh 要求组件按照规范的方式编写，否则热更新可能无效，你可以使用 [eslint-plugin-react-refresh](https://github.com/ArnaudBarre/eslint-plugin-react-refresh) 进行校验。
+
+比如，如果 React 组件的热更新无法生效，或者是热更新后 React 组件的 state 丢失，这通常是因为你的 React 组件使用了匿名函数。在 React Fast Refresh 的官方实践中，要求组件不能为匿名函数，否则热更新后无法保留 React 组件的 state。
+
+以下是一些错误用法的例子：
+
+```tsx
+// 错误写法 1
+export default function () {
+  return <div>Hello World</div>;
+}
+
+// 错误写法 2
+export default () => <div>Hello World</div>;
+```
+
+正确用法是给每个组件函数声明一个名称：
+
+```tsx
+// 正确写法 1
+export default function MyComponent() {
+  return <div>Hello World</div>;
+}
+
+// 正确写法 2
+const MyComponent = () => <div>Hello World</div>;
+
+export default MyComponent;
+```
+
+## React Compiler
+
+React Compiler 是 React 19 引入的一个实验性编译器，它可以自动优化你的 React 代码。
+
+在开始使用 React Compiler 之前，建议阅读 [React Compiler 文档](https://react.dev/learn/react-compiler)，以了解 React Compiler 的功能、当前状态和使用方法。
+
+### 如何使用
+
+在 Rsbuild 中使用 React Compiler 的步骤如下：
+
+1. 升级 `react` 和 `react-dom` 版本到 19。
+2. 目前 React Compiler 仅提供了 Babel 插件，你需要安装 [@rsbuild/plugin-babel](/plugins/list/plugin-babel) 和 [babel-plugin-react-compiler](https://www.npmjs.com/package/babel-plugin-react-compiler)。
+3. 在你的 Rsbuild 配置文件中注册 Babel 插件：
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from '@rsbuild/core';
+import { pluginBabel } from '@rsbuild/plugin-babel';
+import { pluginReact } from '@rsbuild/plugin-react';
+
+export default defineConfig({
+  plugins: [
+    pluginReact(),
+    pluginBabel({
+      include: /\.(?:jsx|tsx)$/,
+      babelLoaderOptions(opts) {
+        opts.plugins?.unshift('babel-plugin-react-compiler');
+      },
+    }),
+  ],
+});
+```
+
+> 你也可以参考 [示例项目](https://github.com/rspack-contrib/rspack-examples/tree/main/rsbuild/react-compiler-babel)。
+
+### 配置
+
+通过以下方式来传入 React Compiler 的配置：
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from '@rsbuild/core';
+import { pluginBabel } from '@rsbuild/plugin-babel';
+import { pluginReact } from '@rsbuild/plugin-react';
+
+const ReactCompilerConfig = {
+  /* ... */
+};
+
+export default defineConfig({
+  plugins: [
+    pluginReact(),
+    pluginBabel({
+      include: /\.(?:jsx|tsx)$/,
+      babelLoaderOptions(opts) {
+        opts.plugins?.unshift([
+          'babel-plugin-react-compiler',
+          ReactCompilerConfig,
+        ]);
+      },
+    }),
+  ],
+});
+```
+
+## CSS-in-JS
+
+### 使用 styled-components
+
+Rsbuild 支持编译 [styled-components](https://github.com/styled-components/styled-components)，优化调试体验，并对 styled-components 添加服务器端渲染支持。
+
+如果你需要使用 styled-components, 我们推荐使用 [@rsbuild/plugin-styled-components](https://github.com/rsbuild-contrib/rsbuild-plugin-styled-components)。
+
+> 你可以参考这个示例：[styled-components](https://github.com/rspack-contrib/rspack-examples/tree/main/rsbuild/styled-components)。
+
+### 使用 Emotion
+
+Rsbuild 支持编译 [Emotion](https://github.com/emotion-js/emotion)，你可以添加以下配置来使用：
+
+- [swcReactOptions.importSource](/plugins/list/plugin-react#swcreactoptions)
+- [@swc/plugin-emotion](https://www.npmjs.com/package/@swc/plugin-emotion)
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+
+export default defineConfig({
+  plugins: [
+    pluginReact({
+      swcReactOptions: {
+        importSource: '@emotion/react',
+      },
+    }),
+  ],
+  tools: {
+    swc: {
+      jsc: {
+        experimental: {
+          plugins: [['@swc/plugin-emotion', {}]],
+        },
+      },
+    },
+  },
+});
+```
+
+> 你可以参考这个示例：[emotion](https://github.com/rspack-contrib/rspack-examples/tree/main/rsbuild/emotion)。
+
+### 使用 styled-jsx
+
+你可以通过 [@swc/plugin-styled-jsx](https://www.npmjs.com/package/@swc/plugin-styled-jsx) 来使用 [styled-jsx](https://github.com/vercel/styled-jsx)：
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+
+export default defineConfig({
+  plugins: [pluginReact()],
+  tools: {
+    swc: {
+      jsc: {
+        experimental: {
+          plugins: [['@swc/plugin-styled-jsx', {}]],
+        },
+      },
+    },
+  },
+});
+```
+
+请注意，你需要选择和当前 `@swc/core` 版本匹配的 SWC 插件，才能使 SWC 正常执行，详见 [tools.swc](/config/tools/swc)。
+
+> 你可以参考这个示例：[styled-jsx](https://github.com/rspack-contrib/rspack-examples/tree/main/rsbuild/styled-jsx)。
+
+### 使用 vanilla-extract
+
+Rsbuild 支持使用 [@vanilla-extract/webpack-plugin](https://www.npmjs.com/package/@vanilla-extract/webpack-plugin) 插件，你可以添加以下配置来使用 [vanilla-extract](https://github.com/vanilla-extract-css/vanilla-extract)：
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+import { VanillaExtractPlugin } from '@vanilla-extract/webpack-plugin';
+
+export default defineConfig({
+  plugins: [
+    pluginReact({
+      reactRefreshOptions: {
+        exclude: [/\.css\.ts$/],
+      },
+    }),
+  ],
+  tools: {
+    rspack: {
+      plugins: [new VanillaExtractPlugin()],
+    },
+  },
+});
+```
+
+> 你可以参考这个示例：[vanilla-extract](https://github.com/rspack-contrib/rspack-examples/tree/main/rsbuild/vanilla-extract)。
+
+### 使用 StyleX
+
+你可以通过 [unplugin-stylex](https://github.com/eryue0220/unplugin-stylex) 来使用 [StyleX](https://github.com/facebook/stylex):
+
+```ts title="rsbuild.config.ts"
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+import stylexPlugin from 'unplugin-stylex/rspack';
+
+export default defineConfig({
+  plugins: [pluginReact()],
+  tools: {
+    rspack: {
+      plugins: [stylexPlugin()],
+    },
+  },
+});
+```
+
+> 你可以参考这个示例：[stylex](https://github.com/rspack-contrib/rspack-examples/tree/main/rsbuild/stylex)。

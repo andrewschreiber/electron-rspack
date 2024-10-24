@@ -1,0 +1,59 @@
+# tools.swc
+
+- **类型：** `Object | Function`
+- **默认值：**
+
+```js
+const defaultOptions = {
+  jsc: {
+    externalHelpers: true,
+    parser: {
+      tsx: false,
+      syntax: 'typescript',
+      decorators: true,
+    },
+  },
+  isModule: 'unknown',
+  // ...some other conditional options
+};
+```
+
+通过 `tools.swc` 可以设置 [builtin:swc-loader](https://rspack.dev/guide/features/builtin-swc-loader) 的选项。
+
+> 参考 [配置 SWC](/guide/basic/configure-swc) 了解更多。
+
+## Object 类型
+
+`tools.swc` 可以配置为一个对象，这个对象将会和内置的 `builtin:swc-loader` 选项进行深层合并。
+
+```js
+export default {
+  tools: {
+    swc: {
+      jsc: {
+        externalHelpers: false,
+      },
+    },
+  },
+};
+```
+
+## Function 类型
+
+`tools.swc` 也可以配置为一个函数，这个函数接收一个参数，即内置的 `builtin:swc-loader` 选项，你可以对这个对象进行修改，然后返回一份新的配置。比如：
+
+```js
+export default {
+  tools: {
+    swc: (config) => {
+      config.jsc ||= {};
+      config.jsc.externalHelpers = false;
+      return config;
+    },
+  },
+};
+```
+
+:::tip
+`tools.swc` 函数返回的对象会直接作为最终使用的 `builtin:swc-loader` 选项，不会再与内置的 `builtin:swc-loader` 选项进行合并。
+:::

@@ -1,0 +1,147 @@
+# server.open
+
+- **Type:**
+
+```ts
+type Open =
+  | boolean
+  | string
+  | string[]
+  | {
+      target?: string | string[];
+      before?: () => Promise<void> | void;
+    };
+```
+
+- **Default:** `undefined`
+
+`server.open` is used to configure a set of page URLs that Rsbuild will automatically open in the browser after starting the server.
+
+> You can also use the [--open](/guide/basic/cli#opening-page) option of Rsbuild CLI to open the pages. When using `server.open` and `--open` at the same time, `--open` takes precedence.
+
+## Example
+
+`server.open` can be set to the following values.
+
+- Open the project's default preview page, equivalent to `http://localhost:<port>`:
+
+```js
+export default {
+  server: {
+    open: true,
+  },
+};
+```
+
+- Open the specified page:
+
+```js
+export default {
+  server: {
+    open: 'http://localhost:3000',
+  },
+};
+```
+
+- Open the specified path, equivalent to `http://localhost:<port>/home`:
+
+```js
+export default {
+  server: {
+    open: '/home',
+  },
+};
+```
+
+- Open multiple pages:
+
+```js
+export default {
+  server: {
+    open: ['/', '/about'],
+  },
+};
+```
+
+- Open a non-localhost URL (used with proxy):
+
+```js
+export default {
+  server: {
+    open: 'http://www.example.com',
+  },
+};
+```
+
+## Port placeholder
+
+The port number that Rsbuild server listens on may change. For example, if the port is in use, Rsbuild will automatically increment the port number until it finds an available port.
+
+To avoid `server.open` becoming invalid due to port changes, you can use one of the following methods:
+
+- Enable [server.strictPort](/config/server/strict-port).
+- Use the `<port>` placeholder to refer to the current port number. Rsbuild will replace the placeholder with the actual port number it is listening on.
+
+```js
+export default {
+  server: {
+    open: 'http://localhost:<port>/home',
+  },
+};
+```
+
+## Open the specified browser
+
+Rsbuild by default will open the page in the system's default browser.
+
+On macOS, you can open the specified browser when dev server starts, by set environment variable `BROWSER`, support values:
+
+- Google Chrome Canary
+- Google Chrome Dev
+- Google Chrome Beta
+- Google Chrome
+- Microsoft Edge
+- Brave Browser
+- Vivaldi
+- Chromium
+
+For example:
+
+```bash
+BROWSER="Google Chrome Canary" npx rsbuild dev --open
+```
+
+:::tip
+You can set `BROWSER` in the local [.env.local](/guide/advanced/env-vars#env-file) file, which helps avoid impacting other developers.
+:::
+
+## Callback
+
+By using `open.before`, you can trigger a callback function before opening the page.
+
+```js
+export default {
+  server: {
+    open: {
+      before: async () => {
+        await doSomeThing();
+      },
+    },
+  },
+};
+```
+
+When using `open.before`, the page URLs can be configured via `open.target`.
+
+```js
+export default {
+  server: {
+    open: {
+      target: ['/', '/about'],
+      before: async () => {
+        await doSomeThing();
+      },
+    },
+  },
+};
+```

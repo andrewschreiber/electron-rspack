@@ -1,0 +1,90 @@
+# 提升构建性能
+
+Rsbuild 默认对构建性能进行了充分优化，但是随着使用场景变复杂、项目代码量变大，你可能会遇到一些构建性能的问题。
+
+本文档提供了一些可选的提速方法，**开发者可以根据实际场景选取其中的部分方法**，从而进一步提升构建速度。
+
+## 性能分析
+
+进行构建性能分析可以帮助你确定项目中的性能瓶颈，从而采取针对性的优化。
+
+请参考 [构建性能分析](/guide/debug/build-profiling) 章节了解更多。
+
+## 通用优化
+
+以下是一些通用的优化方法，对开发模式和生产模式均有提速效果。
+
+### 减少模块
+
+对应用引用的模块数量进行优化，可以减少产物体积并提升构建性能，请阅读 [优化产物体积](/guide/optimization/optimize-bundle) 章节来了解一些优化方法。
+
+## 开发模式优化
+
+以下是针对开发构建进行提速的方法。
+
+## 启动 Lazy Compilation
+
+启用 lazy compilation 可以显著减少开发启动时编译的模块数量，从而提升启动时间。
+
+```js
+export default {
+  dev: {
+    lazyCompilation: true,
+  },
+};
+```
+
+> 请参考 [dev.lazyCompilation](/config/dev/lazy-compilation) 了解更多。
+
+### Source Map 格式
+
+为了提供良好的调试体验，Rsbuild 在开发模式下默认使用 `cheap-module-source-map` 格式 source map，这是一种高质量的 source map 格式，会带来一定的性能开销。
+
+你可以通过 [output.sourceMap](/config/output/source-map) 调整开发时的 source map 格式，从而提升构建速度。
+
+比如禁用 source map：
+
+```js
+export default {
+  output: {
+    sourceMap: {
+      js: false,
+    },
+  },
+};
+```
+
+或是把开发模式的 source map 格式设置为开销最小的 `eval` 格式：
+
+```js
+export default {
+  output: {
+    sourceMap: {
+      js: process.env.NODE_ENV === 'development' ? 'eval' : false,
+    },
+  },
+};
+```
+
+> 关于不同 source map 格式之间的详细差异，请查看 [Rspack - devtool](https://rspack.dev/zh/config/devtool)。
+
+### Browserslist 范围
+
+这项优化的原理与[「提升 Browserslist 范围」](/guide/optimization/optimize-bundle#adjust-browserslist)类似，区别在于，我们可以为开发模式和生产模式设置不同的 browserslist，从而减少开发模式下的编译开销。
+
+比如，你可以在 `.browserslistrc` 中添加以下配置，表示在开发模式下只兼容最新的浏览器，在生产模式下兼容实际需要的浏览器：
+
+```yaml title=".browserslistrc"
+[production]
+chrome >= 87
+edge >= 88
+firefox >= 78
+safari >= 14
+
+[development]
+last 1 chrome version
+last 1 firefox version
+last 1 safari version
+```
+
+注意，这项优化方法会导致开发模式与生产模式的构建产物存在一定差异。

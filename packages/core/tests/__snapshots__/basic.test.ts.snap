@@ -1,0 +1,57 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`plugin-basic > should apply basic config correctly in development 1`] = `
+{
+  "context": "<ROOT>/packages/core/tests",
+  "devtool": "cheap-module-source-map",
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "development",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "name": "web",
+  "output": {
+    "devtoolModuleFilenameTemplate": [Function],
+  },
+  "performance": {
+    "hints": false,
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+    HotModuleReplacementPlugin {
+      "name": "HotModuleReplacementPlugin",
+    },
+  ],
+}
+`;
+
+exports[`plugin-basic > should apply basic config correctly in production 1`] = `
+{
+  "context": "<ROOT>/packages/core/tests",
+  "devtool": false,
+  "infrastructureLogging": {
+    "level": "error",
+  },
+  "mode": "production",
+  "module": {
+    "parser": {
+      "javascript": {
+        "exportsPresence": "error",
+      },
+    },
+  },
+  "name": "web",
+  "performance": {
+    "hints": false,
+  },
+  "plugins": [
+    RsbuildCorePlugin {},
+  ],
+}
+`;

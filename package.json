@@ -1,0 +1,64 @@
+{
+  "name": "electron-rspack-monorepo",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "packages/compat/*",
+      "scripts/*"
+    ]
+  },
+  "scripts": {
+    "build": "cross-env NX_DAEMON=false nx run-many -t build --exclude @examples/* @e2e/* rsbuild-* --parallel=10",
+    "build:doc": "cd website && pnpm run build",
+    "change": "changeset",
+    "changeset": "changeset",
+    "check-dependency-version": "check-dependency-version-consistency .",
+    "check-spell": "npx cspell",
+    "dev:doc": "cd website && pnpm run dev",
+    "e2e": "cd ./e2e && pnpm test",
+    "e2e:rspack": "cd ./e2e && pnpm test:rspack",
+    "e2e:webpack": "cd ./e2e && pnpm test:webpack",
+    "format": "prettier --write .",
+    "lint": "biome check . --diagnostic-level=warn && pnpm run check-spell",
+    "prebundle": "nx run-many -t prebundle",
+    "prepare": "pnpm run build && simple-git-hooks",
+    "sort-package-json": "npx sort-package-json \"./package.json\" \"packages/*/package.json\" \"packages/compat/*/package.json\"",
+    "test": "pnpm run ut",
+    "ut": "vitest run",
+    "ut:watch": "vitest"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx nano-staged"
+  },
+  "nano-staged": {
+    "*.{md,mdx,json,css,less,scss}": "prettier --write",
+    "*.{js,jsx,ts,tsx,mjs,cjs}": [
+      "biome check --write --formatter-enabled=false --linter-enabled=false --no-errors-on-unmatched",
+      "prettier --write"
+    ],
+    "package.json": "pnpm run check-dependency-version"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@changesets/cli": "^2.27.9",
+    "@modern-js/module-tools": "^2.60.4",
+    "@rsbuild/config": "workspace:*",
+    "@rslib/core": "0.0.13",
+    "@scripts/test-helper": "workspace:*",
+    "check-dependency-version-consistency": "^4.1.0",
+    "cross-env": "^7.0.3",
+    "cspell-ban-words": "^0.0.4",
+    "nano-staged": "^0.8.0",
+    "nx": "^20.0.3",
+    "prettier": "^3.3.3",
+    "simple-git-hooks": "^2.11.1",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.3"
+  },
+  "packageManager": "pnpm@9.11.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

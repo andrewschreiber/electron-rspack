@@ -1,0 +1,77 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: choice
+        description: 'Release Version (next, beta, alpha, latest)'
+        required: true
+        default: 'next'
+        options:
+          - next
+          - beta
+          - alpha
+          - latest
+      branch:
+        description: 'Release Branch (confirm release branch)'
+        required: true
+        default: 'main'
+      run_eco_ci:
+        description: 'Run Rsbuild ecosystem CI before release'
+        type: boolean
+        required: false
+        default: true
+  issue_comment:
+    types: [created]
+
+permissions:
+  id-token: write
+
+jobs:
+  release:
+    name: Release
+    if: github.repository == 'web-infra-dev/rsbuild' && github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Ecosystem CI
+        if: inputs.run_eco_ci == true
+        uses: convictional/trigger-workflow-and-wait@v1.6.5
+        with:
+          owner: "rspack-contrib"
+          repo: "rsbuild-ecosystem-ci"
+          workflow_file_name: "ecosystem-ci-selected.yml"
+          github_token: ${{ secrets.REPO_SCOPED_TOKEN }}
+          ref: "main"
+          client_payload: '{"ref":"${{ github.event.inputs.branch }}","repo":"web-infra-dev/rsbuild","suite":"-","suiteRefType":"precoded","suiteRef":"precoded"}'
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 25
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Install Pnpm
+        run: corepack enable
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Release
+        uses: web-infra-dev/actions@v2
+        with:
+          version: ${{ github.event.inputs.version }}
+          branch: ${{ github.event.inputs.branch }}
+          type: 'release'
+          tools: 'changeset'
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          REF: ${{ github.ref }}

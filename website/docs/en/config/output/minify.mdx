@@ -1,0 +1,93 @@
+# output.minify
+
+- **Type:**
+
+```ts
+type Minify =
+  | boolean
+  | {
+      js?: boolean;
+      jsOptions?: SwcJsMinimizerRspackPluginOptions;
+      css?: boolean;
+      cssOptions?: LightningCssMinimizerRspackPluginOptions;
+    };
+```
+
+- **Default:** `true`
+
+Configure whether to enable code minification in production mode, or to configure minimizer options.
+
+By default, JS and CSS code will be automatically minimized in production mode to improve page performance. If you do not want to minify the code, you can set `minify` to `false` to disable minification for all code. Alternatively, you can control the behavior of code minification through detailed configuration of the `minify` option. Below are detailed explanations for each configuration option:
+
+Here are explanations for each field:
+
+- `js`: Whether to enable minification for JavaScript code.
+- `jsOptions`: JS code minification configuration, which will be merged with the default configuration and passed to SWC.
+- `css`: Whether to enable minification for CSS code.
+- `cssOptions`: CSS code minification configuration, which will be merged with the default configuration and passed to Lightning CSS.
+
+## Example
+
+### Disable all minification
+
+```js
+export default {
+  output: {
+    minify: false,
+  },
+};
+```
+
+:::tip
+This configuration is usually used for debugging and troubleshooting. It is not recommended to disable code minification in production builds, as it will significantly degrade the page performance.
+:::
+
+### Disable JavaScript minification
+
+```js
+export default {
+  output: {
+    minify: {
+      js: false,
+    },
+  },
+};
+```
+
+### JavaScript minify options
+
+`output.minify.jsOptions` is used to configure SWC's minification options. For detailed configurations, please refer to [SwcJsMinimizerRspackPlugin](https://rspack.dev/plugins/rspack/swc-js-minimizer-rspack-plugin). The following configuration will override the default settings, disable the mangle feature.
+
+```js
+export default {
+  output: {
+    minify: {
+      jsOptions: {
+        minimizerOptions: {
+          mangle: false,
+        },
+      },
+    },
+  },
+};
+```
+
+> Refer to [Configure SWC](/guide/basic/configure-swc) for more details.
+
+### CSS minify options
+
+`output.minify.cssOptions` is used to configure Lightning CSS's minification options. For specific configuration items, please refer to [LightningCssMinimizerRspackPlugin Documentation](https://rspack.dev/plugins/rspack/lightning-css-minimizer-rspack-plugin).
+
+```js
+export default {
+  output: {
+    minify: {
+      cssOptions: {
+        minimizerOptions: {
+          errorRecovery: false,
+        },
+      },
+    },
+  },
+};
+```
