@@ -14,7 +14,6 @@ module.exports = {
     'dist-*',
     'compiled',
     'coverage',
-    'doc_build',
     'node_modules',
     'pnpm-lock.yaml',
     'README.pt-BR.md',
