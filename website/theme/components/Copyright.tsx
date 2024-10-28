@@ -13,7 +13,7 @@ export const CopyRight = () => {
               style={{ textDecoration: 'underline' }}
               href="https://x.com/andrewschrbr"
             >
-              @andrewschreiber
+              Andrew Schreiber
             </a>{' '}
             with{' '}
             <a
