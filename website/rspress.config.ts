@@ -10,6 +10,9 @@ import { rsbuildPluginOverview } from './theme/rsbuildPluginOverview';
 const siteUrl = 'https://electron-rspack.dev';
 
 export default defineConfig({
+  output: {
+    assetPrefix: '/electron-rspack/website/',
+  },
   plugins: [
     pluginSitemap({
       domain: siteUrl,
