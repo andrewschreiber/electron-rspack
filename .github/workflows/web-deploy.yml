@@ -39,13 +39,17 @@ jobs:
       - name: Build with Rspress
         run: |
           pnpm run build
+          ls -la
+          pwd
 
       - name: Debug - List workspace
         run: |
           echo "Current workspace contents:"
+          pwd
           ls -la
           echo "Looking for doc_build directory:"
           find . -name "doc_build" -type d
+          ls website
 
       - name: Debug - Check build output
         run: |
@@ -60,7 +64,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: doc_build
+          path: website/doc_build
 
   # Deployment job
   deploy:
