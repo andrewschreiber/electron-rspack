@@ -23,7 +23,8 @@
       "*.svelte",
       "template-lit-*/src/my-element.*",
       "tsconfig.json",
-      "tsconfig.*.json"
+      "tsconfig.*.json",
+      "doc_build/"
     ],
     "ignoreUnknown": true
   },
