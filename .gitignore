@@ -8,7 +8,7 @@ dist-*
 compiled/
 !website/**/dist-path.mdx
 coverage/
-#doc_build/
+doc_build/
 playwright-report/
 tsconfig.tsbuildinfo
 .swc
