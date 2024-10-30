@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Rsbuild Releases</title>
+        <link>https://electron-rspack.dev</link>
+        <description></description>
+        <lastBuildDate>Wed, 30 Oct 2024 20:09:48 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>zh-CN</language>
+        <item>
+            <title><![CDATA[Rsbuild 1.0 发布]]></title>
+            <link>https://electron-rspack.dev/zh/community/releases/v1-0</link>
+            <guid>192</guid>
+            <pubDate>Tue, 10 Sep 2024 18:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1 id="rsbuild-10-发布">Rsbuild 1.0 发布<a aria-hidden="true" href="#rsbuild-10-发布">#</a></h1>
+<blockquote>
+<p>September 10, 2024</p>
+</blockquote>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/rsbuild-1-0-banner.png" alt=""></img></p>
+<p>我们很高兴地宣布 Rsbuild 1.0 已经正式发布！</p>
+<h2 id="为什么是-rsbuild">为什么是 Rsbuild<a aria-hidden="true" href="#为什么是-rsbuild">#</a></h2>
+<p>长期以来，使用 webpack 的开发者饱受两个问题的困扰：<strong>构建慢和配置复杂</strong>。</p>
+<p>我们使用 Rust 将 webpack 重写为 <a href="https://github.com/web-infra-dev/rspack" target="_blank" rel="noopener noreferrer">Rspack</a>，解决了构建慢的问题。但为了兼容 webpack 生态，Rspack 保留了 webpack 的配置和 API，这意味着它依然存在一定的复杂度和学习成本。</p>
+<h3 id="生态的发展">生态的发展<a aria-hidden="true" href="#生态的发展">#</a></h3>
+<p>在早期，webpack 生态中出现了一些优秀的工具，比如 Create React App（简称 CRA）和 Vue CLI，它们为 React 或 Vue 应用提供最佳实践，隐藏了复杂的 webpack 配置。因此，许多 React 和 Vue 用户使用这些工具来创建应用，不需要从零开始配置 webpack。</p>
+<p>随着生态的发展，Next.js、Nuxt 和 Remix 等全栈 web 框架变得流行；Vite 推出后，作为一个轻量化的构建工具，也受到了众多开发者的青睐。而 CRA、Vue CLI 则是逐渐停止了维护。</p>
+<p>当我们查看 webpack、CRA 和 Vue CLI 的 npm 下载量时，会发现仍然有大量项目在使用这些工具。例如，webpack 有约 2500 万的周下载量，CRA 有近 300 万的周下载量。这些项目有很多是 CSR 应用，不需要使用全栈框架的 SSR 等特性；Vite 看起来是一个不错的选择，但我们在字节跳动的项目中实践后发现，从 webpack 迁移到 Vite 存在很高的成本，并且迁移带来了一些新问题，例如开发环境与生产环境的构建产物不一致、大型应用在开发过程中页面刷新缓慢等问题。</p>
+<p>对于 webpack 生态，我们发现了一个让人遗憾的事实：<strong>webpack 生态缺少一个易于使用且维护良好的构建工具</strong>，它既要像 CRA 和 Vue CLI 一样对用户友好，能够很好地满足 CSR 应用开发的需求，又需要像 Vite 一样具备快速启动、插件化等特性。</p>
+<h3 id="rsbuild-的诞生">Rsbuild 的诞生<a aria-hidden="true" href="#rsbuild-的诞生">#</a></h3>
+<p>在开发 Rspack 的过程中，我们意识到了上述问题，并决定在 Rspack 的基础上开发一个现代的构建工具 —— <strong>Rsbuild</strong>。</p>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/rsbuild-1-0-build-tools.png" alt=""></img></p>
+<p>Rsbuild 是以 Rspack 为核心实现的，我们为 Rsbuild 设计了易于使用、TypeScript 友好的 API，并内置一套精心设计的构建配置，使它既能充分发挥出 Rspack 的性能优势，也能解决配置复杂、上手成本高的问题。</p>
+<p>在实现 Rsbuild 的过程中，我们向社区中优秀的工具学习最佳实践，并聚焦于两个使用场景来设计 Rsbuild：</p>
+<ul>
+<li>作为一个轻量的构建工具：帮助开发者快速搭建 web 应用，为 CSR 应用提供开箱即用的支持。</li>
+<li>作为一个共享的基础设施：为上层工具和框架提供 <a href="https://rsbuild.dev/api/start/" target="_blank" rel="noopener noreferrer">JavaScript API</a> 和 <a href="https://rsbuild.dev/plugins/dev/" target="_blank" rel="noopener noreferrer">插件 API</a>，允许开发者基于 Rsbuild 来开发属于自己的工具或框架，轻松实现 SSR、SSG 等特性。</li>
+</ul>
+<h2 id="性能">性能<a aria-hidden="true" href="#性能">#</a></h2>
+<p><strong>Rsbuild 是目前 webpack 和 Rspack 生态中最快的构建工具</strong>，下面是 Rsbuild 与 Create React App、Vite、Rspack CLI 的对比：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>Create React App</th>
+<th>Vite (with SWC)</th>
+<th>Rspack CLI</th>
+<th>Rsbuild</th>
+<th>Rsbuild vs CRA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dev 启动时间（1000 个模块）</td>
+<td>5.47s</td>
+<td>1.29s</td>
+<td>0.66s</td>
+<td>0.39s</td>
+<td><strong>快 14 倍</strong></td>
+</tr>
+<tr>
+<td>build 构建时间（1000 个模块）</td>
+<td>5.69s</td>
+<td>1.39s</td>
+<td>0.51s</td>
+<td>0.27s</td>
+<td><strong>快 20 倍</strong></td>
+</tr>
+<tr>
+<td>npm 依赖数量</td>
+<td>1241</td>
+<td>15</td>
+<td>283</td>
+<td>14</td>
+<td><strong>减少 99%</strong></td>
+</tr>
+<tr>
+<td>npm 安装体积</td>
+<td>146.6MB</td>
+<td>56.3MB</td>
+<td>75.1MB</td>
+<td>59.1MB</td>
+<td><strong>减少 60%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>与 <a href="https://www.npmjs.com/package/@rspack/cli" target="_blank" rel="noopener noreferrer">Rspack CLI</a> 相比，Rsbuild 内置了更丰富的功能，同时具备更好的性能表现。</p>
+<p>这是因为 Rspack CLI 需要保持对 <a href="https://www.npmjs.com/package/webpack-cli" target="_blank" rel="noopener noreferrer">webpack-cli</a> 的兼容性，它依赖了 <code>webpack-dev-server</code>，并提供与 webpack 一致的默认行为，因此性能受到了一定限制。而 Rsbuild 是面向现代 web 开发设计的，我们为 Rsbuild 重新实现了更轻量的 CLI、开发服务器和构建流程，使其具备更快的启动速度和更少的 npm 依赖。</p>
+<blockquote>
+<p>参考 <a href="https://rsbuild.dev/zh/guide/start/index" target="_blank" rel="noopener noreferrer">Rsbuild 介绍</a> 了解 Rsbuild 与 webpack、Vue CLI、Vite 的对比。</p>
+</blockquote>
+<h2 id="谁在使用">谁在使用<a aria-hidden="true" href="#谁在使用">#</a></h2>
+<p>在 <a href="https://rspack.dev/zh/blog/announcing-1-0" target="_blank" rel="noopener noreferrer">Rspack 1.0 发布公告</a> 中，我们介绍了 Rspack 正在取得快速增长，这其中约有一半的 Rspack 用户已经在使用 Rsbuild，并给予我们很多正向的反馈。</p>
+<p>在字节跳动，我们将 Rsbuild 作为内部研发框架的基石，支持了数千个 web 项目，这些项目涵盖了不同的使用场景，包括 desktop web 应用、mobile web 应用、跨平台 web 应用、文档站等。</p>
+<p>在社区中，我们开源了基于 Rsbuild 的高性能工具链，包括静态站点生成器 <a href="https://github.com/web-infra-dev/rspress" target="_blank" rel="noopener noreferrer">Rspress</a>，library 构建工具 <a href="https://github.com/web-infra-dev/rslib" target="_blank" rel="noopener noreferrer">Rslib</a>，React 全栈框架 <a href="https://github.com/web-infra-dev/modern.js" target="_blank" rel="noopener noreferrer">Modern.js</a>，<a href="https://github.com/rspack-contrib/storybook-rsbuild" target="_blank" rel="noopener noreferrer">Storybook Rsbuild</a>。得益于 Rsbuild 的可扩展性，这些工具能够灵活地集成 Rsbuild，并与它共享插件生态。</p>
+<p>在 Rsbuild 1.0 发布后，我们也计划与 <a href="https://github.com/remix-run/remix" target="_blank" rel="noopener noreferrer">Remix</a> 等优秀的团队一起探索，使 Rsbuild 能够与更多 web 框架集成。</p>
+<h2 id="插件生态">插件生态<a aria-hidden="true" href="#插件生态">#</a></h2>
+<p>Rsbuild 的插件生态正在不断发展，目前社区中已经有超过 50 个 <a href="https://github.com/web-infra-dev/awesome-rspack?tab=readme-ov-file#rsbuild-plugins" target="_blank" rel="noopener noreferrer">Rsbuild 插件</a>。我们通过插件提供了一些高级特性，以支持生产级应用的开发，例如 <a href="https://github.com/rspack-contrib/rsbuild-plugin-type-check" target="_blank" rel="noopener noreferrer">类型检查</a>、<a href="https://github.com/rspack-contrib/rsbuild-plugin-check-syntax" target="_blank" rel="noopener noreferrer">产物语法检查</a>、<a href="https://rsbuild.dev/plugins/list/plugin-assets-retry" target="_blank" rel="noopener noreferrer">静态资源重试</a>。此外，受益于 Rspack 对 webpack 的兼容性，Rsbuild 也支持使用大部分 webpack 插件。</p>
+<p>与 webpack 或 Rspack 相比，Rsbuild 的插件 API 更加简洁和容易上手，使开发者能够轻松地开发插件来满足自己的需求。</p>
+<p>例如，我们来实现一个插件，它的功能是输出一个文件到产物目录，在 Rspack 和 Rsbuild 中的实现对比如下：</p>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/rsbuild-1-0-plugin-compare.png" alt=""></img></p>
+<p>可以看到，Rsbuild 插件的 API 风格与 esbuild 类似，可以通过一个函数来定义。插件的 hooks 经过简化，避免了冗长的 API，使插件的编写更符合直觉。</p>
+<h2 id="如何使用-10">如何使用 1.0<a aria-hidden="true" href="#如何使用-10">#</a></h2>
+<ul>
+<li>如果你还未使用过 Rsbuild，可以通过 <a href="https://codesandbox.io/p/github/rspack-contrib/rsbuild-codesandbox-example" target="_blank" rel="noopener noreferrer">CodeSandbox 示例</a> 来体验，也可以参考 <a href="https://rsbuild.dev/zh/guide/start/quick-start" target="_blank" rel="noopener noreferrer">快速上手</a> 来接入 Rsbuild。</li>
+<li>如果你正在使用 Rsbuild 0.7 或更早的版本，请留意 1.0 版本包含一些不兼容更新，可参考 <a href="https://rsbuild.dev/zh/guide/migration/rsbuild-0-x" target="_blank" rel="noopener noreferrer">从 Rsbuild 0.x 迁移</a> 文档进行升级。</li>
+<li>Rsbuild 也提供了 webpack、CRA、Vue CLI 等项目的迁移指南，详见 <a href="https://rsbuild.dev/zh/guide/start/quick-start#%E4%BB%8E%E7%8E%B0%E6%9C%89%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB" target="_blank" rel="noopener noreferrer">从现有项目迁移</a>。</li>
+</ul>
+<blockquote>
+<p>欢迎为 <a href="https://github.com/web-infra-dev/rsbuild" target="_blank" rel="noopener noreferrer">Rsbuild GitHub 仓库</a> 点亮一颗 Star 🌟。</p>
+</blockquote>
+<h2 id="下一步">下一步<a aria-hidden="true" href="#下一步">#</a></h2>
+<p>Rsbuild 1.0 为企业级应用和上层工具开发提供了一些高级特性，例如 <a href="https://rsbuild.dev/zh/guide/advanced/environments" target="_blank" rel="noopener noreferrer">多环境构建 API</a>、<a href="https://rsbuild.dev/zh/guide/advanced/ssr" target="_blank" rel="noopener noreferrer">服务端渲染 API</a>、<a href="https://rsbuild.dev/plugins/dev/" target="_blank" rel="noopener noreferrer">插件 API</a>、<a href="https://rsbuild.dev/zh/guide/advanced/module-federation" target="_blank" rel="noopener noreferrer">模块联邦支持</a> 和 <a href="https://github.com/web-infra-dev/rslib" target="_blank" rel="noopener noreferrer">Library 构建（Rslib）</a>，我们计划继续完善这些特性，更好地支持 Rsbuild 生态发展。</p>
+<p>在接下来的 12～18 个月里，Rsbuild 将与 Rspack 共同演进，在第一时间应用 Rspack 的新特性，例如持久化缓存、更快的 HMR、基于 TypeScript 的优化等。请参考 <a href="https://rspack.dev/zh/blog/announcing-1-0#%E4%B8%8B%E4%B8%80%E6%AD%A5" target="_blank" rel="noopener noreferrer">Rspack - 下一步</a> 了解更多。</p>
+<p>最后，感谢所有为 Rsbuild 贡献过的开发者 ❤️：</p>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/rsbuild-1-0-contributors.png" alt=""></img></p>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Rsbuild 0.7 发布]]></title>
+            <link>https://electron-rspack.dev/zh/community/releases/v0-7</link>
+            <guid>191</guid>
+            <pubDate>Tue, 28 May 2024 18:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1 id="rsbuild-07-发布">Rsbuild 0.7 发布<a aria-hidden="true" href="#rsbuild-07-发布">#</a></h1>
+<blockquote>
+<p>May 28, 2024</p>
+</blockquote>
+<p><img src="https://assets.rspack.dev/rsbuild/rsbuild-banner-v0-7.png" alt=""></img></p>
+<p>Rsbuild 0.7 已与 Rspack 0.7 同步发布！</p>
+<p>这是 Rsbuild 1.0 版本发布前的最后一个 minor 版本，此后 Rspack 团队将投入到 1.0 版本的开发中，并致力于尽快推出 Rspack / Rsbuild 1.0 alpha 版本。</p>
+<p>在 Rsbuild 0.7 中，值得关注的变更有：</p>
+<ul>
+<li><a href="#%E6%94%AF%E6%8C%81-storybook">支持 Storybook</a></li>
+<li><a href="#%E6%9B%B4%E5%BF%AB%E7%9A%84-sass-%E7%BC%96%E8%AF%91">更快的 Sass 编译</a></li>
+<li><a href="#%E6%9B%B4%E5%A5%BD%E7%9A%84-css-%E6%94%AF%E6%8C%81">更好的 CSS 支持</a></li>
+<li><a href="#css-modules-%E7%B1%BB%E5%9E%8B%E7%94%9F%E6%88%90">CSS Modules 类型生成</a></li>
+<li><a href="#esmcjs-%E5%AF%BC%E5%87%BA">ESM/CJS 导出</a></li>
+<li><a href="#%E4%B8%8D%E5%85%BC%E5%AE%B9%E6%9B%B4%E6%96%B0">不兼容更新</a></li>
+</ul>
+<h2 id="支持-storybook">支持 Storybook<a aria-hidden="true" href="#支持-storybook">#</a></h2>
+<p>Rsbuild 现已支持 Storybook！</p>
+<p><a href="https://github.com/rspack-contrib/storybook-rsbuild" target="_blank" rel="noopener noreferrer">storybook-builder-rsbuild</a> 是基于 Storybook v8 和 Rsbuild 实现的 Storybook builder，能够快速构建你的 components 和 stories。</p>
+<p><img src="https://assets.rspack.dev/rsbuild/rsbuild-banner-with-storybook.png" alt=""></img></p>
+<ul>
+<li>对于使用 Rsbuild 的项目，现在你可以快速集成 Storybook，并复用已有的 Rsbuild 配置。</li>
+<li>对于使用 Storybook webpack builder 的项目，现在即可升级到 Rsbuild，<strong>并获得约 5 倍的构建性能提升</strong>。</li>
+</ul>
+<p>我们还提供了 <code>storybook-react-rsbuild</code> 和 <code>storybook-vue3-rsbuild</code>，用于支持 React 和 Vue 3。比如集成 React：</p>
+<pre><code meta="">
+
+const config: StorybookConfig = {
+  framework: 'storybook-react-rsbuild',
+};
+
+export default config;
+</code></pre>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/storybook-rsbuild-preview.png" alt=""></img></p>
+<blockquote>
+<p>更多用法请参考 <a href="https://github.com/rspack-contrib/storybook-rsbuild" target="_blank" rel="noopener noreferrer">storybook-rsbuild 仓库</a>。</p>
+</blockquote>
+<h2 id="更快的-sass-编译">更快的 Sass 编译<a aria-hidden="true" href="#更快的-sass-编译">#</a></h2>
+<p>在 Rsbuild 0.7 中，<strong>Sass 编译速度提高了 3~10 倍</strong>，在大型项目项目中的性能提升尤为显著。</p>
+<p>以编译 Bootstrap 的 Sass 代码为例，Rsbuild 0.6 和 0.7 的构建时间对比：</p>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/sass-embedded-compare.jpeg" alt=""></img></p>
+<p>这得益于 Rsbuild 默认启用了 <a href="https://www.npmjs.com/package/sass-embedded" target="_blank" rel="noopener noreferrer">sass-embedded</a>，sass-embedded 是一个围绕原生 Dart Sass 可执行文件的 JavaScript wrapper，具备一致的 API 和更优秀的性能。</p>
+<p>此外，Rsbuild 还启用了 <code>sass-loader</code> 最新的 <a href="https://github.com/webpack-contrib/sass-loader/releases/tag/v14.2.0" target="_blank" rel="noopener noreferrer">modern-compiler</a> API，这能够开启 Sass 的 shared resources 能力，在编译多个文件时重复利用相同的 compiler 进程，从而提升构建速度。</p>
+<h2 id="更好的-css-支持">更好的 CSS 支持<a aria-hidden="true" href="#更好的-css-支持">#</a></h2>
+<p>Rsbuild 现在使用 <a href="https://www.rspack.dev/plugins/rspack/css-extract-rspack-plugin" target="_blank" rel="noopener noreferrer">CssExtractRspackPlugin</a> 来提取 CSS 到单独的文件中，而不是使用 <a href="https://www.rspack.dev/config/experiments#experimentscss" target="_blank" rel="noopener noreferrer">experiments.css</a> 配置来实现。</p>
+<p>这允许 Rsbuild 支持更多 CSS 特性，包括：</p>
+<ul>
+<li>支持在 Vue SFC 中使用 <code><style module></code>：</li>
+</ul>
+<pre><code meta=""><template>
+  <p :class="$style.red">Red</p>
+</template>
+
+<style module>
+  .red {
+    color: red;
+  }
+</style>
+</code></pre>
+<ul>
+<li>支持复杂的 CSS Modules <code>:global()</code> 语法</li>
+</ul>
+<pre><code meta="">:local(.parent):global(.child) > ul {
+  color: red;
+}
+</code></pre>
+<ul>
+<li>支持更多的 CSS Modules 选项，如 <a href="/config/output/css-modules#cssmodulesexportglobals">cssModules.exportGlobals</a></li>
+<li>现在你可以使用 <a href="/config/tools/css-extract">tools.cssExtract</a> 来配置 CssExtractRspackPlugin。</li>
+</ul>
+<h2 id="css-modules-类型生成">CSS Modules 类型生成<a aria-hidden="true" href="#css-modules-类型生成">#</a></h2>
+<p>Rsbuild 0.7 新增了 <a href="https://github.com/rspack-contrib/rsbuild-plugin-typed-css-modules" target="_blank" rel="noopener noreferrer">Typed CSS Modules 插件</a>，用于为项目中的 CSS Modules 文件生成类型声明文件。</p>
+<p>当你在 TypeScript 项目里使用 CSS Modules 时，默认的类型定义如下。它只能提供基本的类型支持，无法准确地提示出 CSS Modules 导出了哪些类名。</p>
+<pre><code meta="">declare module '*.module.css' {
+  const classes: { readonly [key: string]: string };
+  export default classes;
+}
+</code></pre>
+<p>在使用 Typed CSS Modules 插件后，Rsbuild 会为项目中所有的 CSS Modules 生成类型声明文件，提供准确的类型提示。</p>
+<p>例如，创建 <code>src/index.ts</code> 和 <code>src/index.module.css</code> 两个文件：</p>
+<pre><code meta="">
+
+console.log(styles.pageHeader);
+</code></pre>
+<pre><code meta="">.page-header {
+  color: black;
+}
+</code></pre>
+<p>构建后，Rsbuild 会自动生成 <code>src/index.module.css.d.ts</code> 类型声明文件：</p>
+<pre><code meta="">interface CssExports {
+  'page-header': string;
+  pageHeader: string;
+}
+declare const cssExports: CssExports;
+export default cssExports;
+</code></pre>
+<p>此时再打开 <code>src/index.ts</code> 文件，可以看到 <code>styles</code> 对象已经具备了准确的类型。</p>
+<h2 id="esmcjs-导出">ESM/CJS 导出<a aria-hidden="true" href="#esmcjs-导出">#</a></h2>
+<p>现在，Rsbuild 的所有包均提供了 ES modules 和 CommonJS 两种格式的导出，并在 package.json 中声明了 <a href="https://nodejs.org/api/packages.html#type" target="_blank" rel="noopener noreferrer">"type"="module"`</a>。</p>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/rsbuild-dual-package-example.png" alt=""></img></p>
+<p>这使你能够使用 <code>import</code> 或 <code>require</code> 来调用 Rsbuild 的 JavaScript API：</p>
+<pre><code>// ES Modules
+
+
+// CommonJS
+const { createRsbuild } = require('@rsbuild/core');
+</code></pre>
+<p>ESM/CJS 互操作是一个棘手的问题，因此我们计划长期提供这两种格式，以便于更多用户使用。</p>
+<h2 id="不兼容更新">不兼容更新<a aria-hidden="true" href="#不兼容更新">#</a></h2>
+<h3 id="升级-rspack-07">升级 Rspack 0.7<a aria-hidden="true" href="#升级-rspack-07">#</a></h3>
+<p>Rsbuild 已将依赖的 Rspack 升级至 0.7 版本，并适配了其中包含的不兼容更新，通常你不会受到这些不兼容更新的影响。</p>
+<p>在新版本中，Rspack 支持了 lazy compilation，可以显著提升大型项目的 dev 启动速度。请参考 <a href="https://rspack.dev/zh/blog/announcing-0-7" target="_blank" rel="noopener noreferrer">Rspack 0.7 发布公告</a> 了解更多。</p>
+<p>在 Rsbuild 中，你可以使用 <a href="/config/dev/lazy-compilation">dev.lazyCompilation</a> 来启用 lazy compilation。</p>
+<h3 id="sass-和-less-插件">Sass 和 Less 插件<a aria-hidden="true" href="#sass-和-less-插件">#</a></h3>
+<p>Rsbuild 的 Sass 和 Less 插件现在是两个独立的 npm 包，而不是像之前一样内置在 <code>@rsbuild/core</code> 中，这允许用户可以按需启用 Sass 和 Less 编译能力。</p>
+<p>比如，对于使用 Tailwind CSS、CSS-in-JS 等 CSS 方案的项目，现在不再需要安装 Sass 和 Less 所需的依赖，<strong>这可以节省约 7MB 的磁盘空间</strong>。</p>
+<ul>
+<li>如果你的项目需要编译 <code>.scss</code> 或 <code>.sass</code> 文件，请安装并注册 <a href="/plugins/list/plugin-sass">@rsbuild/plugin-sass</a> 插件：</li>
+</ul>
+<pre><code meta="">
+
+export default {
+  plugins: [pluginSass()],
+};
+</code></pre>
+<ul>
+<li>如果你的项目需要编译 <code>.less</code> 文件，请安装并注册 <a href="/plugins/list/plugin-less">@rsbuild/plugin-less</a> 插件：</li>
+</ul>
+<pre><code meta="">
+
+export default {
+  plugins: [pluginLess()],
+};
+</code></pre>
+<h3 id="dataurilimit-默认值">dataUriLimit 默认值<a aria-hidden="true" href="#dataurilimit-默认值">#</a></h3>
+<p><a href="/config/output/data-uri-limit">output.dataUriLimit</a> 的默认值从 <code>10000 (10kB)</code> 调整为 <code>4096 (4KiB)</code>.</p>
+<p>这是因为目前更多的应用正在使用 HTTP 2.0，所以将资源分割成单独的文件会表现得更好。而且将超过 4KiB 的资源内联可能会使 JS 包体积过大，不利于缓存。</p>
+<p>如果你倾向于之前的默认设置，可以添加以下配置：</p>
+<pre><code meta="">export default {
+  output: {
+    dataUriLimit: 10000,
+  },
+};
+</code></pre>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Rsbuild 0.6 发布]]></title>
+            <link>https://electron-rspack.dev/zh/community/releases/v0-6</link>
+            <guid>190</guid>
+            <pubDate>Wed, 10 Apr 2024 18:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1 id="rsbuild-06-发布">Rsbuild 0.6 发布<a aria-hidden="true" href="#rsbuild-06-发布">#</a></h1>
+<blockquote>
+<p>April 10, 2024</p>
+</blockquote>
+<p><img src="https://assets.rspack.dev/rsbuild/rsbuild-banner-v0-6.png" alt=""></img></p>
+<p>Rsbuild 0.6 已与 Rspack 0.6 同步发布！</p>
+<p>主要变更：</p>
+<ul>
+<li>升级 Rspack 0.6</li>
+<li>默认启用 error overlay</li>
+<li>支持 Vue JSX HMR</li>
+<li>全新的 transform 插件 API</li>
+<li>默认端口调整为 3000</li>
+</ul>
+<h2 id="升级-rspack-06">升级 Rspack 0.6<a aria-hidden="true" href="#升级-rspack-06">#</a></h2>
+<p>Rsbuild 已将依赖的 Rspack 升级至 0.6 版本，并适配了 Rspack 0.6 包含的 CSS Modules 不兼容更新。</p>
+<p>在新版本中，Rspack 默认开启了新版 tree shaking 算法，使产物体积和产物稳定性得到显著提升。请参考 <a href="https://rspack.dev/blog/announcing-0-6" target="_blank" rel="noopener noreferrer">Rspack 0.6 发布公告</a> 了解更多。</p>
+<h2 id="默认启用-error-overlay">默认启用 error overlay<a aria-hidden="true" href="#默认启用-error-overlay">#</a></h2>
+<p>从 Rsbuild 0.6 开始，<a href="/config/dev/client">dev.client.overlay</a> 的默认值调整为 <code>true</code>。这意味着当出现编译错误时，Rsbuild 将默认弹出 error overlay 来展示错误信息：</p>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/rsbuild-error-overlay.png" alt=""></img></p>
+<p>如果你不需要此功能，可以将 <code>dev.client.overlay</code> 设置为 <code>false</code> 来禁用：</p>
+<pre><code meta="">export default defineConfig({
+  dev: {
+    client: {
+      overlay: false,
+    },
+  },
+});
+</code></pre>
+<h2 id="支持-vue-jsx-hmr">支持 Vue JSX HMR<a aria-hidden="true" href="#支持-vue-jsx-hmr">#</a></h2>
+<p><code>@rsbuild/plugin-vue-jsx</code> 现已支持 JSX HMR，当你在 Vue 3 应用中修改 JSX 代码时，会自动触发模块热替换，并保留当前页面的状态。</p>
+<p>该功能由社区贡献者 <a href="https://github.com/liyincode" target="_blank" rel="noopener noreferrer">@liyincode</a> 实现 ❤️，并且发布为独立的 <a href="https://github.com/liyincode/babel-plugin-vue-jsx-hmr" target="_blank" rel="noopener noreferrer">babel-plugin-vue-jsx-hmr</a> 包，以便在 Rsbuild 以外的项目中使用。</p>
+<h2 id="全新的-transform-api">全新的 transform API<a aria-hidden="true" href="#全新的-transform-api">#</a></h2>
+<p>Rsbuild 插件现已支持 <a href="/plugins/dev/core#apitransform">transform API</a>，这可以理解为 Rspack loader 的一个轻量化实现，它提供了简单易用的 API，并在底层自动调用 Rspack loader 进行代码转换。</p>
+<p>在 Rsbuild 插件中，你可以通过 <code>api.transform</code> 快速实现代码转换功能，能够满足大部分常见场景，而无须学习 Rspack loader 的编写方法。</p>
+<p>比如匹配以 .pug 为后缀的模块，并转换为 JavaScript 代码：</p>
+<pre><code>
+
+const pluginPug = () => ({
+  name: 'my-pug-plugin',
+  setup(api) {
+    api.transform({ test: /\.pug$/ }, ({ code }) => {
+      const templateCode = pug.compileClient(code, {});
+      return `${templateCode}; module.exports = template;`;
+    });
+  },
+});
+</code></pre>
+<p>对于一些复杂的代码转换场景，<code>api.transform</code> 可能无法满足，此时你可以使用 Rspack loader 进行实现。</p>
+<h2 id="默认端口调整为-3000">默认端口调整为 3000<a aria-hidden="true" href="#默认端口调整为-3000">#</a></h2>
+<p>Rsbuild 已将 <a href="/config/server/port">server.port</a> 的默认值从 <code>8080</code> 调整到 <code>3000</code>。</p>
+<p>端口 3000 通常用于 web 开发领域，也是 create-react-app 等工具默认使用的端口。通过更改默认端口为 3000，可以避免在使用 8080 时可能遇到的端口冲突问题。</p>
+<p>如果你需要使用 8080 端口，可以手动设置：</p>
+<pre><code meta="">export default defineConfig({
+  server: {
+    port: 8080,
+  },
+});
+</code></pre>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Rsbuild 0.5 发布]]></title>
+            <link>https://electron-rspack.dev/zh/community/releases/v0-5</link>
+            <guid>189</guid>
+            <pubDate>Tue, 19 Mar 2024 08:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1 id="rsbuild-05-发布">Rsbuild 0.5 发布<a aria-hidden="true" href="#rsbuild-05-发布">#</a></h1>
+<blockquote>
+<p>March 19, 2024</p>
+</blockquote>
+<p><img src="https://assets.rspack.dev/rsbuild/rsbuild-banner-v0-5.png" alt=""></img></p>
+<p>Rsbuild 0.5 是一个重要的里程碑，从该版本开始，Rsbuild 的绝大部分 API 已经达到稳定状态，我们预计在 2024 年 Q3 发布 Rsbuild v1.0。</p>
+<p>主要变更：</p>
+<ul>
+<li>⚡️ 支持启用 <a href="https://lightningcss.dev/" target="_blank" rel="noopener noreferrer">Lightning CSS</a> 以加速 CSS 编译。</li>
+<li>🌟 支持基于新的 JavaScript API 实现自定义 server。</li>
+<li>🍭 重构 SVGR 插件以支持更丰富的用法。</li>
+<li>📍 支持自定义压缩选项。</li>
+</ul>
+<h2 id="️-支持-lightning-css">⚡️ 支持 Lightning CSS<a aria-hidden="true" href="#️-支持-lightning-css">#</a></h2>
+<p>Lightning CSS 是一个基于 Rust 编写的高性能 CSS 解析、转译和压缩工具。它支持将许多现代的 CSS 特性解析并转化为指定浏览器支持的语法，并提供更好的压缩比例。</p>
+<p>Rsbuild 提供了 Lightning CSS 插件，用于按需开启 Lightning CSS 能力，并替代 Rsbuild 内置的 PostCSS、autoprefixer 和 SWC CSS minimizer。</p>
+<p>只需要在 Rsbuild 配置中注册 Lightning CSS 插件，即可完成切换：</p>
+<pre><code meta="">
+
+export default {
+  plugins: [pluginLightningcss()],
+};
+</code></pre>
+<p>在一个真实的大型 Web 应用中，我们接入了 Rsbuild Lightning CSS 插件，并使用 <a href="https://rsdoctor.dev/" target="_blank" rel="noopener noreferrer">Rsdoctor</a> 分析构建耗时的变化：</p>
+<ul>
+<li>CSS 编译耗时由 8.4s 降低到 0.12s，提升 70 倍。</li>
+<li>整体构建耗时由 33.1s 降低到 25.4s，提升 30%。</li>
+</ul>
+<h2 id="-支持自定义-server">🌟 支持自定义 Server<a aria-hidden="true" href="#-支持自定义-server">#</a></h2>
+<p>Rsbuild 现在支持将 dev server 替换为自定义的 server，并复用 Rsbuild 提供的页面预览、路由、模块热更新等功能。这将使得 Rsbuild 与其他 Node.js 框架结合使用变得更加容易。</p>
+<p>比如基于 express 实现自定义 server：</p>
+<pre><code>
+
+
+async function startCustomServer() {
+  const app = express();
+  const rsbuild = await createRsbuild();
+  const { port, middlewares } = await rsbuild.createDevServer();
+
+  app.use(middlewares);
+  app.listen(port);
+}
+</code></pre>
+<p>详情可参考 <a href="https://rsbuild.dev/zh/api/javascript-api/instance#rsbuildcreatedevserver" target="_blank" rel="noopener noreferrer">Rsbuild - createDevServer</a>。</p>
+<h2 id="-重构-svgr-插件">🍭 重构 SVGR 插件<a aria-hidden="true" href="#-重构-svgr-插件">#</a></h2>
+<p>在 0.5.0 之前的版本中，SVGR 插件的默认用法与 create-react-app 保持一致，允许以混合导入的形式使用 SVG：</p>
+<pre><code>
+
+console.log(logoUrl); // -> string
+console.log(Logo); // -> React component
+</code></pre>
+<p>但这种做法存在两个问题：</p>
+<ol>
+<li><strong>包体积增加</strong>：混合导入会导致单个 SVG 模块被编译为两种代码（即使部分导出没有被使用），这会增加产物的包体积。</li>
+<li><strong>编译速度下降</strong>：混合导入会产生额外的编译开销。即使代码中未使用到 ReactComponent 导出，SVG 文件仍然会被 SVGR 编译。而 SVGR 是基于 Babel 实现的，性能开销较大。</li>
+</ol>
+<p>因此，我们重构了 <code>@rsbuild/plugin-svgr</code> 插件，支持通过 <code>?react</code> query 来将 SVG 转换为 React 组件，这种用法能够解决以上问题，且更符合当前社区的最佳实践。</p>
+<pre><code>
+
+
+console.log(logoUrl); // -> string
+console.log(Logo); // -> React component
+</code></pre>
+<p>SVGR 插件现在支持在多种 SVGR 用法之间切换，如果项目需要使用之前的混合导入用法，可以手动开启 <a href="/plugins/list/plugin-svgr#mixedimport">mixedImport</a> 选项：</p>
+<pre><code>pluginSvgr({
+  mixedImport: true,
+});
+</code></pre>
+<h2 id="-自定义压缩选项">📍 自定义压缩选项<a aria-hidden="true" href="#-自定义压缩选项">#</a></h2>
+<p><code>output.disableMinimize</code> 选项已经被重命名为 <a href="/config/output/minify">output.minify</a>，并允许自定义 JS 和 HTML 的压缩选项。</p>
+<pre><code meta="">export default {
+  output: {
+    minify: {
+      jsOptions: {
+        minimizerOptions: {
+          mangle: false,
+        },
+      },
+    },
+  },
+};
+</code></pre>
+<p>使用 <code>output.disableMinimize</code> 的项目可以参考以下示例：</p>
+<pre><code>export default {
+  output: {
+-    disableMinimize: true,
++    minify: false,
+  },
+};
+</code></pre>
+<blockquote>
+<p>详见 <a href="https://github.com/web-infra-dev/rsbuild/issues/1681" target="_blank" rel="noopener noreferrer">"allow customize minify options"</a>。</p>
+</blockquote>
+<hr></hr>
+<p>更多内容请参考：</p>
+<ul>
+<li><a href="https://github.com/web-infra-dev/rsbuild/releases/tag/v0.5.0" target="_blank" rel="noopener noreferrer">Rsbuild 0.5.0 更新日志</a></li>
+<li><a href="https://github.com/web-infra-dev/rsbuild/discussions/1732" target="_blank" rel="noopener noreferrer">Rsbuild 0.5.0 不兼容更新</a></li>
+</ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Rsbuild 0.4 发布]]></title>
+            <link>https://electron-rspack.dev/zh/community/releases/v0-4</link>
+            <guid>188</guid>
+            <pubDate>Tue, 06 Feb 2024 08:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1 id="rsbuild-04-发布">Rsbuild 0.4 发布<a aria-hidden="true" href="#rsbuild-04-发布">#</a></h1>
+<blockquote>
+<p>February 06, 2024</p>
+</blockquote>
+<p><img src="https://assets.rspack.dev/rsbuild/rsbuild-banner-v0-4.png" alt=""></img></p>
+<p>Rsbuild 0.4 版本提供内置的模块联邦支持。此外，还包含一些 API 的不兼容更新，请参考当前文档进行升级。</p>
+<h3 id="模块联邦配置">模块联邦配置<a aria-hidden="true" href="#模块联邦配置">#</a></h3>
+<p>Rsbuild 现在提供一个内置的 <a href="/config/module-federation/options">moduleFederation</a> 选项，这将使得在 Rsbuild 中配置模块联邦变得更加容易。</p>
+<ul>
+<li><strong>示例：</strong></li>
+</ul>
+<pre><code meta="">export default defineConfig({
+  moduleFederation: {
+    options: {
+      // ModuleFederationPluginOptions
+    },
+  },
+});
+</code></pre>
+<p>当你使用该选项时，Rsbuild 会自动修改默认的 <code>publicPath</code> 和 <code>splitChunks</code> 配置，使模块联邦可以开箱即用。</p>
+<blockquote>
+<p>详见 <a href="https://github.com/web-infra-dev/rsbuild/discussions/1461" target="_blank" rel="noopener noreferrer">RFC - Provide first-class support for Module Federation</a>。</p>
+</blockquote>
+<h3 id="插件-hook-顺序">插件 Hook 顺序<a aria-hidden="true" href="#插件-hook-顺序">#</a></h3>
+<p>在 Rsbuild 插件中使用 hook 时，现在可以通过 <code>order</code> 字段来声明 hook 的顺序：</p>
+<pre><code>const myPlugin = () => ({
+  setup: (api) => {
+    api.modifyRsbuildConfig({
+      handler: () => console.log('hello'),
+      order: 'pre',
+    });
+  },
+});
+</code></pre>
+<blockquote>
+<p>详见 <a href="/plugins/dev/hooks">Plugin Hooks</a>。</p>
+</blockquote>
+<h3 id="重命名-disablefilenamehash">重命名 disableFilenameHash<a aria-hidden="true" href="#重命名-disablefilenamehash">#</a></h3>
+<p><code>output.disableFilenameHash</code> 配置已被重命名为 <a href="/config/output/filename-hash">output.filenameHash</a>。</p>
+<ul>
+<li>更改前：</li>
+</ul>
+<pre><code>export default {
+  output: {
+    disableFilenameHash: true,
+  },
+};
+</code></pre>
+<ul>
+<li>更改后：</li>
+</ul>
+<pre><code>export default {
+  output: {
+    filenameHash: false,
+  },
+};
+</code></pre>
+<h2 id="移除-postcss-flexbugs-fixes">移除 postcss-flexbugs-fixes<a aria-hidden="true" href="#移除-postcss-flexbugs-fixes">#</a></h2>
+<p>Rsbuild 0.4 移除了内置的 <a href="https://github.com/luisrudge/postcss-flexbugs-fixes" target="_blank" rel="noopener noreferrer">postcss-flexbugs-fixes</a> 插件。</p>
+<p>该插件用于修复 IE 10 / 11 中的一些 flex bug。考虑到现代浏览器已经不再存在这些 flex 问题，我们移除了这个插件以提高构建性能。</p>
+<p>如果你的项目需要兼容 IE 10 / 11 ，并且遇到了这些 flex 问题，你可以在 Rsbuild 中手动添加这个插件：</p>
+<ul>
+<li>安装插件：</li>
+</ul>
+<pre><code>npm add postcss-flexbugs-fixes -D
+</code></pre>
+<ul>
+<li>在 <code>postcss.config.cjs</code> 中注册插件：</li>
+</ul>
+<pre><code>module.exports = {
+  'postcss-flexbugs-fixes': {},
+};
+</code></pre>
+<h2 id="pure-react-插件">Pure React 插件<a aria-hidden="true" href="#pure-react-插件">#</a></h2>
+<p>React 插件已移除对 <a href="https://www.npmjs.com/package/antd" target="_blank" rel="noopener noreferrer">antd</a> v4 和 <a href="https://www.npmjs.com/package/@arco-design/web-react" target="_blank" rel="noopener noreferrer">@arco-design/web-react</a> 的默认 <a href="/config/source/transform-import">source.transformImport</a> 配置。</p>
+<p>与组件库相关的配置应该在组件库相关的插件中提供，如 <code>rsbuild-plugin-antd</code> 或 <code>rsbuild-plugin-arco</code>，而 React 插件会专注于提供 React 基础的能力。</p>
+<ul>
+<li>如果你的项目正在使用 <code>antd</code> v3 或 v4，你可以手动添加以下配置：</li>
+</ul>
+<pre><code meta="">export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: 'css',
+      },
+    ],
+  },
+};
+</code></pre>
+<ul>
+<li>如果你的项目正在使用 <code>@arco-design/web-react</code> v3 或 v4，你可以手动添加以下配置：</li>
+</ul>
+<pre><code meta="">export default {
+  source: {
+    transformImport: [
+      {
+        libraryName: '@arco-design/web-react',
+        libraryDirectory: 'es',
+        camelToDashComponentName: false,
+        style: 'css',
+      },
+      {
+        libraryName: '@arco-design/web-react/icon',
+        libraryDirectory: 'react-icon',
+        camelToDashComponentName: false,
+      },
+    ],
+  },
+};
+</code></pre>
+<h2 id="javascript-api">JavaScript API<a aria-hidden="true" href="#javascript-api">#</a></h2>
+<p><code>loadConfig</code> 方法现在会返回配置内容和配置文件的路径：</p>
+<pre><code>
+
+// 0.3
+const config = await loadConfig();
+
+// 0.4
+const { content, filePath } = await loadConfig();
+</code></pre>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Rsbuild 0.3 发布]]></title>
+            <link>https://electron-rspack.dev/zh/community/releases/v0-3</link>
+            <guid>187</guid>
+            <pubDate>Wed, 10 Jan 2024 08:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1 id="rsbuild-03-发布">Rsbuild 0.3 发布<a aria-hidden="true" href="#rsbuild-03-发布">#</a></h1>
+<blockquote>
+<p>January 10, 2024</p>
+</blockquote>
+<p><img src="https://assets.rspack.dev/rsbuild/rsbuild-banner-v0-3.png" alt=""></img></p>
+<p>Rsbuild 0.3 版本升级 Rspack 到 0.5 并支持了模块联邦。此外，还包含一些 API 的不兼容更新，请参考当前文档进行升级。</p>
+<h2 id="rspack-05">Rspack 0.5<a aria-hidden="true" href="#rspack-05">#</a></h2>
+<p>将 Rspack 升级到 v0.5.0，详情见：<a href="https://rspack.dev/zh/blog/announcing-0-5" target="_blank" rel="noopener noreferrer">Rspack 0.5 发布公告</a></p>
+<p>主要变动：</p>
+<ul>
+<li><a href="https://rspack.dev/zh/blog/module-federation-added-to-rspack" target="_blank" rel="noopener noreferrer">支持 Module Federation</a></li>
+<li><a href="https://rspack.dev/zh/blog/announcing-0-5#%E7%A7%BB%E9%99%A4%E5%B7%B2%E5%BC%83%E7%94%A8%E7%9A%84-builtins-options" target="_blank" rel="noopener noreferrer">移除已弃用的 builtins 选项</a></li>
+</ul>
+<h2 id="toml--yaml-插件">TOML / YAML 插件<a aria-hidden="true" href="#toml--yaml-插件">#</a></h2>
+<p>在 JS 中导入 TOML 和 YAML 的需求并不常见，所以从 v0.3.0 开始，Rsbuild 核心将不再默认支持导入 TOML 和 YAML。</p>
+<p>TOML 和 YAML 将变成独立的插件：</p>
+<ul>
+<li>TOML:</li>
+</ul>
+<pre><code>// rsbuild.config.ts
+
+
+export default {
+  plugins: [pluginToml()],
+};
+</code></pre>
+<ul>
+<li>YAML:</li>
+</ul>
+<pre><code>// rsbuild.config.ts
+
+
+export default {
+  plugins: [pluginYaml()],
+};
+</code></pre>
+<h2 id="javascript-api">JavaScript API<a aria-hidden="true" href="#javascript-api">#</a></h2>
+<p>包含一些 JavaScript API 的参数变更：</p>
+<ul>
+<li><code>rsbuild.startDevServer</code> 的 <code>printURLs</code> 选项已被弃用，改用 <a href="/config/server/print-urls">server.printUrls</a> 代替。</li>
+<li><code>rsbuild.startDevServer</code> 的 <code>logger</code> 选项已被弃用，改用 <a href="/api/javascript-api/core#logger">logger.override()</a> 代替。</li>
+</ul>
+<h2 id="node-产物">Node 产物<a aria-hidden="true" href="#node-产物">#</a></h2>
+<ul>
+<li>调整针对 Node.js 的默认 browserslist，从 <code>node >= 14</code> 变为 <code>node >= 16</code>。</li>
+<li><code>output.distPath.server</code> 的默认值从 <code>'bundles'</code> 改为 <code>'server'</code>。</li>
+</ul>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Rsbuild 0.2 发布]]></title>
+            <link>https://electron-rspack.dev/zh/community/releases/v0-2</link>
+            <guid>186</guid>
+            <pubDate>Mon, 11 Dec 2023 08:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1 id="rsbuild-02-发布">Rsbuild 0.2 发布<a aria-hidden="true" href="#rsbuild-02-发布">#</a></h1>
+<blockquote>
+<p>December 11, 2023</p>
+</blockquote>
+<p><img src="https://assets.rspack.dev/rsbuild/rsbuild-banner-v0-2.png" alt=""></img></p>
+<p>Rsbuild 0.2 版本包含一些 API 的不兼容更新，请参考当前文档进行升级。</p>
+<h2 id="targets">Targets<a aria-hidden="true" href="#targets">#</a></h2>
+<p>我们将 <code>createRsbuild</code> 方法的 <code>target</code> 移动至 rsbuild 配置对象中，这个改动使用户可以在 Rsbuild 配置文件中配置 targets。</p>
+<ul>
+<li>before:</li>
+</ul>
+<pre><code>const rsbuild = await createRsbuild({
+  target: ['web', 'node'],
+});
+</code></pre>
+<ul>
+<li>after:</li>
+</ul>
+<pre><code>// rsbuild.config.ts
+export default {
+  output: {
+    targets: ['web', 'node'],
+  },
+};
+</code></pre>
+<blockquote>
+<p>仅影响 JavaScript API。使用 Rsbuild CLI 的用户不需要做任何改变。</p>
+</blockquote>
+<h2 id="entry">Entry<a aria-hidden="true" href="#entry">#</a></h2>
+<p>删除已弃用的 <code>source.entries</code> 配置。</p>
+<p>自 Rsbuild 0.1.0 起，<code>source.entries</code> 已更名为 <code>source.entry</code>，我们在 Rsbuild v0.2.0<code>中删除了</code>source.entries` 配置。</p>
+<ul>
+<li>before:</li>
+</ul>
+<pre><code>// rsbuild.config.ts
+export default {
+  source: {
+    entries: {},
+  },
+};
+</code></pre>
+<ul>
+<li>after:</li>
+</ul>
+<pre><code>// rsbuild.config.ts
+export default {
+  source: {
+    entry: {},
+  },
+};
+</code></pre>
+<h2 id="write-to-disk">Write to Disk<a aria-hidden="true" href="#write-to-disk">#</a></h2>
+<p><code>dev.writeToDisk</code> 的默认值变更为 <code>false</code>.</p>
+<p>原因：</p>
+<ul>
+<li>减少文件系统开销，提升开发服务器性能。</li>
+<li>避免触发 UnoCSS 和其他工具的监听器。参考：<a href="https://github.com/web-infra-dev/rsbuild/issues/654" target="_blank" rel="noopener noreferrer">#654</a>。</li>
+<li>使默认行为与 webpack-dev-middleware 及其他社区开发服务器保持一致。</li>
+</ul>
+<p>用户可以手动开启写入磁盘：</p>
+<pre><code>export default {
+  dev: {
+    writeToDisk: true,
+  },
+};
+</code></pre>
+<h2 id="babel-插件">Babel 插件<a aria-hidden="true" href="#babel-插件">#</a></h2>
+<p><code>@rsbuild/plugin-babel</code> 将所有的 babel-loader 选项移动到 <code>babelLoaderOptions</code>:</p>
+<ul>
+<li>before:</li>
+</ul>
+<pre><code>pluginBabel({
+  plugins: [],
+  presets: [],
+});
+</code></pre>
+<ul>
+<li>after:</li>
+</ul>
+<pre><code>pluginBabel([
+  babelLoaderOptions: {
+    plugins: [],
+    presets: [],
+  }
+]);
+</code></pre>
+<p>这种改变使我们能为 <code>pluginBabel</code> 添加更多选项，如 <code>include</code> 和 <code>exclude</code>。</p>
+<h2 id="source-map">Source Map<a aria-hidden="true" href="#source-map">#</a></h2>
+<p><code>output.disableSourceMap</code> 已经更名为 <code>output.sourceMap</code>.</p>
+<ul>
+<li>before:</li>
+</ul>
+<pre><code>export default {
+  output: {
+    disableSourceMap: {
+      js: true,
+      css: true,
+    },
+  },
+};
+</code></pre>
+<ul>
+<li>after:</li>
+</ul>
+<pre><code>export default {
+  output: {
+    sourceMap: {
+      js: false,
+      css: false,
+    },
+  },
+};
+</code></pre>
+<p>source map 的默认值已更新，以提升构建性能。</p>
+<ul>
+<li>之前：在开发阶段生成 JS / CSS 的 source map，在生产阶段生成 JS 的 source map。</li>
+<li>之后：在开发阶段生成 JS 的 source map，在生产阶段不生成 source map。</li>
+</ul>
+<h2 id="inject-styles">Inject Styles<a aria-hidden="true" href="#inject-styles">#</a></h2>
+<p>将 <code>output.disableCssExtract</code> 更名为 <code>output.injectStyles</code> 以更加直观：</p>
+<ul>
+<li>before:</li>
+</ul>
+<pre><code>export default {
+  output: {
+    disableCssExtract: true,
+  },
+};
+</code></pre>
+<ul>
+<li>after:</li>
+</ul>
+<pre><code>export default {
+  output: {
+    injectStyles: true,
+  },
+};
+</code></pre>]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Rsbuild 0.1 发布]]></title>
+            <link>https://electron-rspack.dev/zh/community/releases/v0-1</link>
+            <guid>185</guid>
+            <pubDate>Wed, 22 Nov 2023 08:00:00 GMT</pubDate>
+            <content:encoded><![CDATA[<h1 id="rsbuild-01-发布">Rsbuild 0.1 发布<a aria-hidden="true" href="#rsbuild-01-发布">#</a></h1>
+<blockquote>
+<p>November 22, 2023</p>
+</blockquote>
+<p><img src="https://assets.rspack.dev/rsbuild/rsbuild-banner-v0-1.png" alt=""></img></p>
+<p>我们很高兴地宣布 <strong><a href="https://github.com/web-infra-dev/rsbuild" target="_blank" rel="noopener noreferrer">Rsbuild</a></strong> <strong>0.1</strong> 的发布！</p>
+<p>Rsbuild 是基于 Rspack 的构建工具，旨在成为<strong>增强版的 Rspack CLI</strong>，更加容易上手和开箱即用。Rsbuild 是 Webpack 应用迁移到 Rspack 的最佳方案，他能帮助你减少 90% 配置并获得 10 倍构建速度。</p>
+<h3 id="-性能">🚀 性能<a aria-hidden="true" href="#-性能">#</a></h3>
+<p>Rsbuild 能够充分发挥 Rspack 的性能优势。由于 Rsbuild 内置了更多开箱即用的功能，因此性能数据会略微低于 Rspack。</p>
+<p>以下是构建 1000 个 React 组件的时间：</p>
+
+<blockquote>
+<p>以上数据基于 Farm 团队搭建的 benchmark，更多信息请参考 <a href="https://github.com/rspack-contrib/performance-compare" target="_blank" rel="noopener noreferrer">performance-compare</a>。</p>
+</blockquote>
+<h3 id="-特性">🔥 特性<a aria-hidden="true" href="#-特性">#</a></h3>
+<p>Rsbuild 具备以下特性：</p>
+<ul>
+<li>
+<p><strong>易于配置</strong>：Rsbuild 的目标之一，是为 Rspack 用户提供开箱即用的构建能力，使开发者能够在零配置的情况下开发 web 项目。同时，Rsbuild 提供一套语义化的构建配置，以降低 Rspack 配置的学习成本。</p>
+</li>
+<li>
+<p><strong>性能优先</strong>：Rsbuild 集成了社区中基于 Rust 的高性能工具，包括 <a href="https://github.com/web-infra-dev/rspack" target="_blank" rel="noopener noreferrer">Rspack</a>，<a href="https://swc.rs/" target="_blank" rel="noopener noreferrer">SWC</a> 和 <a href="https://lightningcss.dev/" target="_blank" rel="noopener noreferrer">Lightning CSS</a>，以提供一流的构建速度和开发体验。与基于 Webpack 的 Create React App 和 Vue CLI 等工具相比，Rsbuild 提供了 5 ~ 10 倍的构建性能，以及更轻量的依赖体积。</p>
+</li>
+<li>
+<p><strong>插件生态</strong>：Rsbuild 内置一个轻量级的插件系统，提供一系列高质量的官方插件。此外，Rsbuild 兼容大部分的 webpack 插件和所有的 Rspack 插件，这意味着你可以在 Rsbuild 中使用社区或公司内沉淀的现有插件，而无须重写相关代码。</p>
+</li>
+<li>
+<p><strong>产物稳定</strong>：Rsbuild 设计时充分考虑了构建产物的稳定性，它的开发和生产构建产物具备较强的一致性，并自动完成语法降级和 polyfill 注入。Rsbuild 也提供插件来进行 TypeScript 类型检查和产物语法检查，以避免线上代码的质量问题和兼容性问题。</p>
+</li>
+<li>
+<p><strong>框架无关</strong>：Rsbuild 不与前端 UI 框架耦合，并通过插件来支持 React、Vue、Svelte、Solid、Preact 等框架，未来也计划支持社区中更多的 UI 框架。</p>
+</li>
+</ul>
+<h3 id="-下一步">💡 下一步<a aria-hidden="true" href="#-下一步">#</a></h3>
+<p>目前 Rsbuild 仍在快速迭代中，并计划引入更多强大的新特性。</p>
+<p>比如，我们正在开发 <strong>Rsdoctor</strong>，这是一个强大的构建分析工具，可以用于所有 Rspack 和 Webpack 项目。它提供可视化 UI，来帮助开发者分析项目中的构建耗时、重复依赖、代码转换过程等，使构建问题更加容易被定位和解决。</p>
+<p><img src="https://assets.rspack.dev/rsbuild/assets/rsdoctor-preview.jpg" alt="Rsdoctor preview"></img></p>
+<p>我们将在近期发布 Rsdoctor 的第一个可用版本，后续 Rsbuild 会与 Rspack 同步迭代，并计划于 2024 年上半年发布 1.0 版本。</p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>
