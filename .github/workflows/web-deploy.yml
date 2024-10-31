@@ -39,28 +39,7 @@ jobs:
       - name: Build with Rspress
         run: |
           pnpm run build
-          ls -la
-          pwd
 
-      - name: Debug - List workspace
-        run: |
-          echo "Current workspace contents:"
-          pwd
-          ls -la
-          echo "Looking for doc_build directory:"
-          find . -name "doc_build" -type d
-          ls website
-
-      - name: Debug - Check build output
-        run: |
-          if [ -d "doc_build" ]; then
-            echo "doc_build exists in current directory"
-            echo "Contents of doc_build:"
-            ls -la doc_build/
-          else
-            echo "doc_build NOT found in current directory"
-            echo "Current working directory: $PWD"
-          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

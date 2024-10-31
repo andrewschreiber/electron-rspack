@@ -3,6 +3,8 @@ import { useI18n, useNavigate } from 'rspress/runtime';
 import { useI18nUrl } from './utils';
 import './Hero.module.scss';
 
+import logoUrl from '@assets/electron-rspack-icon.svg';
+
 export function Hero() {
   const navigate = useNavigate();
   const tUrl = useI18nUrl();
@@ -21,7 +23,8 @@ export function Hero() {
       title="electron-rspack"
       subTitle={t('subtitle')}
       description={t('slogan')}
-      logoUrl="https://assets.rspack.dev/rsbuild/rsbuild-logo.svg"
+      // logoUrl="https://assets.rspack.dev/rsbuild/rsbuild-logo.svg"
+      logoUrl={logoUrl}
       getStartedButtonText={t('introduction')}
       learnMoreButtonText={t('quickStart')}
     />
