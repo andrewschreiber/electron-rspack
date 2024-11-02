@@ -65,8 +65,8 @@ export default defineConfig({
   title: 'Electron-Rspack',
   icon: 'https://assets.rspack.dev/rsbuild/favicon-128x128.png',
   logo: {
-    light: 'https://assets.rspack.dev/rsbuild/navbar-logo-light.png',
-    dark: 'https://assets.rspack.dev/rsbuild/navbar-logo-dark.png',
+    light: '/navbar-logo-light-electron-rspack.png',
+    dark: '/navbar-logo-dark-electron-rspack.png',
   },
   ssg: {
     strict: true,
