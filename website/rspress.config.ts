@@ -84,7 +84,7 @@ export default defineConfig({
       {
         icon: 'github',
         mode: 'link',
-        content: 'https://github.com/web-infra-dev/rsbuild',
+        content: 'https://github.com/andrewschreiber/electron-rspack',
       },
       {
         icon: 'x',
