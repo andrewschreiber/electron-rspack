@@ -1,6 +1,4 @@
-<picture>
-  <img alt="Rsbuild Banner" src="/electron-rspack-readme-logo">
-</picture>
+![Rsbuild Banner](https://github.com/user-attachments/assets/cb081787-9ab2-4615-87ad-3bb20e2936c1)
 
 # electron-rspack
 
@@ -42,7 +40,7 @@ Rsbuild shares many similarities with Vite, as they are both aim to improve the 
 
 Rsbuild can fully leverage the build performance of Rspack. Here is the time taken to build 1000 React components:
 
-![benchmark](https://assets.rspack.dev/rsbuild/assets/benchmark-latest.jpeg)
+![image](https://github.com/user-attachments/assets/d1126bd1-bbb4-4fb8-a499-561dce002ba5)
 
 > The above data comes from the [performance-compare](/performance-compare) benchmark.
 
