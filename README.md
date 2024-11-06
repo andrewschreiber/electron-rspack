@@ -1,5 +1,5 @@
 <picture>
-  <img alt="Rsbuild Banner" src="https://github.com/web-infra-dev/rsbuild/assets/7237365/84abc13e-b620-468f-a90b-dbf28e7e9427">
+  <img alt="Rsbuild Banner" src="/electron-rspack-readme-logo">
 </picture>
 
 # electron-rspack
@@ -44,7 +44,7 @@ Rsbuild can fully leverage the build performance of Rspack. Here is the time tak
 
 ![benchmark](https://assets.rspack.dev/rsbuild/assets/benchmark-latest.jpeg)
 
-> The above data comes from the [performance-compare](https://github.com/rspack-contrib/performance-compare) benchmark.
+> The above data comes from the [performance-compare](/performance-compare) benchmark.
 
 ## 🔥 Features
 
@@ -66,7 +66,7 @@ Rsbuild provides JavaScript API and plugin API for higher-level frameworks and t
 
 The following diagram illustrates the relationship between Rsbuild and other tools in the ecosystem:
 
-![Rspack stack layers](https://assets.rspack.dev/rsbuild/assets/rspack-stack-layers.png)
+![Rspack stack layers](/electron-rspack-stack-layers.png)
 
 ## 📚 Getting Started
 
