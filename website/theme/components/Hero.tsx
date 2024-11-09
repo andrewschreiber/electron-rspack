@@ -23,7 +23,6 @@ export function Hero() {
       title="electron-rspack"
       subTitle={t('subtitle')}
       description={t('slogan')}
-      // logoUrl="https://assets.rspack.dev/rsbuild/rsbuild-logo.svg"
       logoUrl={logoUrl}
       getStartedButtonText={t('introduction')}
       learnMoreButtonText={t('quickStart')}
