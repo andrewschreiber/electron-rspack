@@ -16,7 +16,7 @@ import { useI18n } from 'rspress/runtime';
 // From: https://github.com/rspack-contrib/performance-compare
 const BENCHMARK_DATA: BenchmarkData = {
   rspack: {
-    label: 'Rsbuild',
+    label: 'Electron-Rspack',
     metrics: [
       {
         time: 0.41,

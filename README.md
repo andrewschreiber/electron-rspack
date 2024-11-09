@@ -1,6 +1,4 @@
-<picture>
-  <img alt="Rsbuild Banner" src="https://github.com/web-infra-dev/rsbuild/assets/7237365/84abc13e-b620-468f-a90b-dbf28e7e9427">
-</picture>
+![Rsbuild Banner](https://github.com/user-attachments/assets/cb081787-9ab2-4615-87ad-3bb20e2936c1)
 
 # electron-rspack
 
@@ -42,9 +40,9 @@ Rsbuild shares many similarities with Vite, as they are both aim to improve the 
 
 Rsbuild can fully leverage the build performance of Rspack. Here is the time taken to build 1000 React components:
 
-![benchmark](https://assets.rspack.dev/rsbuild/assets/benchmark-latest.jpeg)
+![image](https://github.com/user-attachments/assets/d1126bd1-bbb4-4fb8-a499-561dce002ba5)
 
-> The above data comes from the [performance-compare](https://github.com/rspack-contrib/performance-compare) benchmark.
+> The above data comes from the [performance-compare](/performance-compare) benchmark.
 
 ## 🔥 Features
 
@@ -66,7 +64,7 @@ Rsbuild provides JavaScript API and plugin API for higher-level frameworks and t
 
 The following diagram illustrates the relationship between Rsbuild and other tools in the ecosystem:
 
-![Rspack stack layers](https://assets.rspack.dev/rsbuild/assets/rspack-stack-layers.png)
+![Rspack stack layers](/electron-rspack-stack-layers.png)
 
 ## 📚 Getting Started
 

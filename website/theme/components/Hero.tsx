@@ -20,7 +20,7 @@ export function Hero() {
       showStars
       onClickGetStarted={handleClickGetStarted}
       onClickLearnMore={handleClickLearnMore}
-      title="electron-rspack"
+      title="Electron-Rspack"
       subTitle={t('subtitle')}
       description={t('slogan')}
       logoUrl={logoUrl}
