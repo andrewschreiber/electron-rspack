@@ -4,5 +4,10 @@
     "type": "dir",
     "name": "releases",
     "label": "Releases"
+  },
+  {
+    "type": "dir",
+    "name": "team",
+    "label": "Team"
   }
 ]
