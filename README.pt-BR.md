@@ -22,14 +22,6 @@ Rsbuild provê [ricas funcionalidades de build](https://rsbuild.dev/guide/start/
 
 Rsbuild é uma ferramenta de build que está no mesmo patamar do [Vite](https://vitejs.dev/), [Create React App](https://github.com/facebook/create-react-app), ou [Vue CLI](https://github.com/vuejs/vue-cli). Todos eles possuem um servidor de desenvolvimento imbutido, ferramentas de linha de comando, e configurações de build que provê uma experiência pronta para uso.
 
-### CRA / Vue CLI
-
-Você pode imaginar o Rsbuild como uma versão moderna do Create React App ou Vue CLI, com estas principais diferenças:
-
-- O bundler por baixo é trocado de Webpack para Rspack, provendo 5 à 10 vezes mais rápido o desempenho de build.
-- É desacoplado de frameworks de frontend e suporta todos os frameworks de interface, por meio de [plugins](https://rsbuild.dev/plugins/list/), incluíndo React, Vue, Svelte, Solid, etc.
-- Oferece melhor extensibilidade. Você pode extender o Rsbuild flexivelmente via [Configurações](https://rsbuild.dev/config/), [Plugin API](https://rsbuild.dev/plugins/dev/), e [JavaScript API](https://rsbuild.dev/api/start/).
-
 ### Vite
 
 Rsbuild compartilha muitas similaridades com Vite, assim como ambos miram em melhorar a experiência do desenvolvimento frontend. As principais diferenças são:

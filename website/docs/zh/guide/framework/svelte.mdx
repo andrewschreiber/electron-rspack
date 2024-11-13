@@ -1,35 +1,3 @@
 # Svelte
 
 在这篇文档中，你可以了解到如何基于 Rsbuild 来构建一个 Svelte 5 或 Svelte 4 应用。
-
-## 创建 Svelte 项目
-
-你可以使用 `create-rsbuild` 来创建一个 Rsbuild + Svelte 的项目，调用以下命令：
-
-import { PackageManagerTabs } from '@theme';
-
-<PackageManagerTabs
-  command={{
-    npm: 'npm create rsbuild@latest',
-    yarn: 'yarn create rsbuild',
-    pnpm: 'pnpm create rsbuild@latest',
-    bun: 'bun create rsbuild@latest',
-  }}
-/>
-
-然后在 `Select framework` 时选择 `Svelte 5` 或 `Svelte 4` 即可。
-
-## 在已有项目中使用 Svelte
-
-为了能够编译 Svelte 组件（`.svelte` 文件），你需要注册 Rsbuild 的 [Svelte 插件](/plugins/list/plugin-svelte)，插件会自动添加 Svelte 构建所需的配置。
-
-例如，在 `rsbuild.config.ts` 中注册：
-
-```ts title="rsbuild.config.ts"
-import { defineConfig } from '@rsbuild/core';
-import { pluginSvelte } from '@rsbuild/plugin-svelte';
-
-export default defineConfig({
-  plugins: [pluginSvelte()],
-});
-```
