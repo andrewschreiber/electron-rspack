@@ -40,6 +40,7 @@ const coreTeam: Member[] = [
   {
     id: 'andrewschreiber',
     avatar: 'https://avatars.githubusercontent.com/u/1892071?v=4',
+    x: 'https://x.com/AndrewSchrbr',
     desc: 'Electron-Rspack core maintainer',
   },
   {
@@ -84,39 +85,4 @@ export const RandomMemberList = ({ list = coreTeam }: { list: Member[] }) => {
       </div>
     </NoSSR>
   );
-};
-
-export const RandomContributorsList = () => {
-  const list: Member[] = [
-    {
-      id: 'hyf0',
-      avatar: 'https://avatars.githubusercontent.com/u/49502170?s=120&v=4',
-      x: 'https://x.com/_hyf0',
-      desc: 'Rspack / Rolldown contributor',
-    },
-    {
-      id: 'underfin',
-      avatar: 'https://avatars.githubusercontent.com/u/14008915?s=120&v=4',
-      desc: 'Rspack / Rolldown / Vite contributor',
-    },
-    {
-      id: 'Boshen',
-      avatar: 'https://avatars.githubusercontent.com/u/1430279?s=120&v=4',
-      x: 'https://x.com/boshen_c',
-      desc: 'Rspack contributor / Creator of Oxc',
-    },
-    {
-      id: 'IWANABETHATGUY',
-      avatar: 'https://avatars.githubusercontent.com/u/17974631?s=120&v=4',
-      desc: 'Rspack / Rolldown contributor',
-    },
-    {
-      id: 'suxin2017',
-      avatar: 'https://avatars.githubusercontent.com/u/28481035?v=4',
-      x: 'https://x.com/suxin2017',
-      desc: 'Rspack / Biome contributor',
-    },
-  ];
-
-  return <RandomMemberList list={list} />;
 };
