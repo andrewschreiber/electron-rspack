@@ -22,14 +22,6 @@ Rsbuild 提供 [丰富的构建功能](https://rsbuild.dev/zh/guide/start/featur
 
 Rsbuild 是与 [Vite](https://vitejs.dev/)、[Create React App](https://github.com/facebook/create-react-app) 或 [Vue CLI](https://github.com/vuejs/vue-cli) 相似的构建工具，它们都默认包含了开发服务器、命令行工具和合理的构建配置，以此来提供开箱即用的体验。
 
-### CRA / Vue CLI
-
-你可以将 Rsbuild 理解为一个现代化的 Create React App 或 Vue CLI，它与这些工具的主要区别在于：
-
-- 底层的打包工具由 Webpack 替换为 Rspack，提供 5 ~ 10 倍的构建性能。
-- 与前端 UI 框架解耦，并通过 [插件](https://rsbuild.dev/zh/plugins/list/) 来支持所有 UI 框架，包括 React、Vue、Svelte、Solid 等。
-- 提供更好的扩展性，你可以通过 [配置](https://rsbuild.dev/zh/config/)、 [插件 API](https://rsbuild.dev/zh/plugins/dev/) 和 [JavaScript API](https://rsbuild.dev/zh/api/start/) 来灵活地扩展 Rsbuild。
-
 ### Vite
 
 Rsbuild 与 Vite 有许多相似之处，它们皆致力于提升前端的开发体验。其主要区别在于：

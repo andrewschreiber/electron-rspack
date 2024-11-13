@@ -132,3 +132,5 @@ webm
 webp
 Schreiber
 Hanson
+andrewschreiber
+kombofuud
