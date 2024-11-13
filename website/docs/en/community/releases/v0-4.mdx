@@ -30,23 +30,6 @@ When you use this option, Rsbuild will automatically set the default `publicPath
 
 > See [RFC - Provide first-class support for Module Federation](https://github.com/web-infra-dev/rsbuild/discussions/1461) for details.
 
-### Plugin Hook Order
-
-In Rsbuild plugin, you can now declare the order of hooks using the `order` field:
-
-```ts
-const myPlugin = () => ({
-  setup: (api) => {
-    api.modifyRsbuildConfig({
-      handler: () => console.log('hello'),
-      order: 'pre',
-    });
-  },
-});
-```
-
-> For more details, see [Plugin Hooks](/plugins/dev/hooks).
-
 ### Rename disableFilenameHash
 
 The `output.disableFilenameHash` config has been renamed to [output.filenameHash](/config/output/filename-hash).

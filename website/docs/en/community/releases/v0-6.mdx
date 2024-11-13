@@ -48,30 +48,6 @@ export default defineConfig({
 
 This feature is implemented by community contributor [@liyincode](https://github.com/liyincode) ❤️, and released as a standalone package [babel-plugin-vue-jsx-hmr](https://github.com/liyincode/babel-plugin-vue-jsx-hmr), for use in projects outside of Rsbuild.
 
-## New transform API
-
-Rsbuild plugin now supports the [transform API](/plugins/dev/core#apitransform), which can be thought of as a lightweight implementation of Rspack loader. It provides a simple and easy to use API and automatically calls Rspack loader at the backend to transform the code.
-
-In Rsbuild plugins, you can quickly implement code transformation functions using `api.transform`, which can handle the majority of common scenarios without having to learn how to write an Rspack loader.
-
-For example, match modules with the `.pug` extension and transform them to JavaScript code:
-
-```ts
-import pug from 'pug';
-
-const pluginPug = () => ({
-  name: 'my-pug-plugin',
-  setup(api) {
-    api.transform({ test: /\.pug$/ }, ({ code }) => {
-      const templateCode = pug.compileClient(code, {});
-      return `${templateCode}; module.exports = template;`;
-    });
-  },
-});
-```
-
-For some complex code transformation scenarios, `api.transform` may not be sufficient. In such situations, you can implement it using the Rspack loader.
-
 ## Default port changed to 3000
 
 Rsbuild has changed the default value of [server.port](/config/server/port) from `8080` to `3000`.

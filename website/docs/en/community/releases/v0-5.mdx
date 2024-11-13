@@ -38,31 +38,6 @@ In a real large-scale web application, we have integrated the Rsbuild Lightning 
 - CSS compilation time was reduced from 8.4s to 0.12s, a 70x improvement.
 - The overall build time was reduced from 33.1s to 25.4s, a 30% increase.
 
-## 🌟 Support for Custom Server
-
-Rsbuild now supports replacing the dev server with a custom server that reuses Rsbuild's page preview, routing, and module hot update features. This makes it easier to integrate Rsbuild with other Node.js frameworks.
-
-For example, you can implement a custom server based on express:
-
-```ts
-import express from 'express';
-import { createRsbuild } from '@rsbuild/core';
-
-async function startCustomServer() {
-  const app = express();
-  const rsbuild = await createRsbuild();
-  const { port, middlewares } = await rsbuild.createDevServer();
-
-  app.use(middlewares);
-  app.listen(port);
-}
-```
-
-For more details, please refer to [Rsbuild - createDevServer](/api/javascript-api/instance#rsbuildcreatedevserver).
-;
-
-````
-
 ## 📍 Custom Minify Options
 
 The `output.disableMinimize` option has been renamed to [output.minify](/config/output/minify), and it allows customizing JS and HTML minification options.
@@ -79,7 +54,7 @@ export default {
     },
   },
 };
-````
+```
 
 Projects using `output.disableMinimize` can refer to the example below:
 
