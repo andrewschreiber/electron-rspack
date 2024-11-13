@@ -16,26 +16,6 @@ electron-rspack is a high-performance build tool powered by Rspack. It provides 
 
 Rsbuild provides [rich build features](https://rsbuild.dev/guide/start/features), including the compilation of TypeScript, JSX, Sass, Less, CSS Modules, Wasm, and others. It also supports Module Federation, image compression, type checking, PostCSS, Lightning CSS, and more.
 
-## 💡 Comparisons
-
-Rsbuild is a build tool that is on par with [Vite](https://vitejs.dev/), [Create React App](https://github.com/facebook/create-react-app), or [Vue CLI](https://github.com/vuejs/vue-cli). They all come with builtin dev servers, command line tools, and sensible build configurations to provide the out-of-the-box experience.
-
-### CRA / Vue CLI
-
-You can think of Rsbuild as a modernized version of Create React App or Vue CLI, with these main differences:
-
-- The underlying bundler is switched from Webpack to Rspack, providing 5 to 10 times the build performance.
-- It is decoupled from frontend UI frameworks and supports all UI frameworks via [plugins](https://rsbuild.dev/plugins/list/), including React, Vue, Svelte, Solid, etc.
-- It offers better extensibility. You can extend Rsbuild flexibly via [Configurations](https://rsbuild.dev/config/), [Plugin API](https://rsbuild.dev/plugins/dev/), and [JavaScript API](https://rsbuild.dev/api/start/).
-
-### Vite
-
-Rsbuild shares many similarities with Vite, as they are both aim to improve the frontend development experience. The main differences are:
-
-- **Ecosystem compatibility**: Rsbuild is compatible with most webpack plugins and all Rspack plugins, while Vite is compatible with Rollup plugins. If you're currently using more plugins and loaders from the webpack ecosystem, migrating to Rsbuild would be relatively easy.
-- **Production consistency**: Rsbuild uses Rspack for bundling during both the development and production builds, thus ensuring a high level of consistency between the development and production outputs. This is also one of the goals Vite aims to achieve with Rolldown.
-- **Module Federation**: The Rsbuild team works closely with the [Module Federation](https://rsbuild.dev/guide/advanced/module-federation) development team, providing first-class support for Module Federation to help you develop large web applications with micro frontend architecture.
-
 ## 🚀 Performance
 
 Rsbuild can fully leverage the build performance of Rspack. Here is the time taken to build 1000 React components:

@@ -167,23 +167,6 @@ Rsbuild 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 比如，`RULE.STYLUS` 仅在注册了 Stylus 插件后才会存在。
 :::
 
-### CHAIN_ID.RULE
-
-| ID            | 描述                                                                    |
-| ------------- | ----------------------------------------------------------------------- |
-| `RULE.JS`     | 处理 `js` 和 `ts` 的规则                                                |
-| `RULE.SVG`    | 处理 `svg` 的规则                                                       |
-| `RULE.CSS`    | 处理 `css` 的规则                                                       |
-| `RULE.LESS`   | 处理 `less` 的规则                                                      |
-| `RULE.SASS`   | 处理 `sass` 的规则                                                      |
-| `RULE.WASM`   | 处理 `wasm` 的规则                                                      |
-| `RULE.FONT`   | 处理 `font` 的规则                                                      |
-| `RULE.IMAGE`  | 处理 `image` 的规则                                                     |
-| `RULE.MEDIA`  | 处理 `media` 的规则                                                     |
-| `RULE.VUE`    | 处理 `vue` 的规则（依赖 [Vue 插件](/plugins/list/plugin-vue)）          |
-| `RULE.SVELTE` | 处理 `svelte` 的规则（依赖 [Svelte 插件](/plugins/list/plugin-svelte)） |
-| `RULE.STYLUS` | 处理 `stylus` 的规则（依赖 [Stylus 插件](/plugins/list/plugin-stylus)） |
-
 ### CHAIN_ID.ONE_OF
 
 通过 `ONE_OF.[ID]` 可以匹配到规则数组中的某一类规则。
@@ -193,34 +176,6 @@ Rsbuild 中预先定义了一些常用的 Chain ID，你可以通过这些 ID �
 | `ONE_OF.SVG_URL`    | 处理 SVG 的规则，输出为单独文件                     |
 | `ONE_OF.SVG_INLINE` | 处理 SVG 的规则，作为 data URI 内联到 bundle 中     |
 | `ONE_OF.SVG_ASSETS` | 处理 SVG 的规则，在 data URI 和单独文件之间自动选择 |
-
-### CHAIN_ID.USE
-
-通过 `USE.[ID]` 可以匹配到对应的 loader。
-
-| ID                | 描述                                                                     |
-| ----------------- | ------------------------------------------------------------------------ |
-| `USE.SWC`         | 对应 `builtin:swc-loader`                                                |
-| `USE.POSTCSS`     | 对应 `postcss-loader`                                                    |
-| `USE.STYLE`       | 对应 `style-loader`                                                      |
-| `USE.LESS`        | 对应 `less-loader`（依赖 [Less 插件](/plugins/list/plugin-less)）        |
-| `USE.SASS`        | 对应 `sass-loader`（依赖 [Sass 插件](/plugins/list/plugin-sass)）        |
-| `USE.RESOLVE_URL` | 对应 `resolve-url-loader`（依赖 [Sass 插件](/plugins/list/plugin-sass)） |
-| `USE.VUE`         | 对应 `vue-loader`（依赖 [Vue 插件](/plugins/list/plugin-vue)）           |
-| `USE.SVGR`        | 对应 `svgr-loader`（依赖 [Svgr 插件](/plugins/list/plugin-svgr)）        |
-| `USE.BABEL`       | 对应 `babel-loader`（依赖 [Babel 插件](/plugins/list/plugin-babel)）     |
-| `USE.SVELTE`      | 对应 `svelte-loader`（依赖 [Svelte 插件](/plugins/list/plugin-svelte)）  |
-| `USE.STYLUS`      | 对应 `stylus-loader`（依赖 [Stylus 插件](/plugins/list/plugin-stylus)）  |
-
-### CHAIN_ID.PLUGIN
-
-通过 `PLUGIN.[ID]` 可以匹配到特定的 Rspack 或 Webpack plugin。
-
-| ID                         | 描述                                                                              |
-| -------------------------- | --------------------------------------------------------------------------------- |
-| `PLUGIN.HTML`              | 对应 `HtmlRspackPlugin`，使用时需要拼接 entry 名称：`${PLUGIN.HTML}-${entryName}` |
-| `PLUGIN.BUNDLE_ANALYZER`   | 对应 `WebpackBundleAnalyzer`                                                      |
-| `PLUGIN.VUE_LOADER_PLUGIN` | 对应 `VueLoaderPlugin`（依赖 [Vue 插件](/plugins/list/plugin-vue)）               |
 
 ### CHAIN_ID.MINIMIZER
 

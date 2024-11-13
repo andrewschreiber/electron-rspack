@@ -60,40 +60,6 @@ async function startCustomServer() {
 
 详情可参考 [Rsbuild - createDevServer](https://rsbuild.dev/zh/api/javascript-api/instance#rsbuildcreatedevserver)。
 
-## 🍭 重构 SVGR 插件
-
-在 0.5.0 之前的版本中，SVGR 插件的默认用法与 create-react-app 保持一致，允许以混合导入的形式使用 SVG：
-
-```js
-import logoUrl, { ReactComponent as Logo } from './logo.svg';
-
-console.log(logoUrl); // -> string
-console.log(Logo); // -> React component
-```
-
-但这种做法存在两个问题：
-
-1. **包体积增加**：混合导入会导致单个 SVG 模块被编译为两种代码（即使部分导出没有被使用），这会增加产物的包体积。
-2. **编译速度下降**：混合导入会产生额外的编译开销。即使代码中未使用到 ReactComponent 导出，SVG 文件仍然会被 SVGR 编译。而 SVGR 是基于 Babel 实现的，性能开销较大。
-
-因此，我们重构了 `@rsbuild/plugin-svgr` 插件，支持通过 `?react` query 来将 SVG 转换为 React 组件，这种用法能够解决以上问题，且更符合当前社区的最佳实践。
-
-```jsx
-import logoUrl from './logo.svg';
-import Logo from './logo.svg?react';
-
-console.log(logoUrl); // -> string
-console.log(Logo); // -> React component
-```
-
-SVGR 插件现在支持在多种 SVGR 用法之间切换，如果项目需要使用之前的混合导入用法，可以手动开启 [mixedImport](/plugins/list/plugin-svgr#mixedimport) 选项：
-
-```js
-pluginSvgr({
-  mixedImport: true,
-});
-```
-
 ## 📍 自定义压缩选项
 
 `output.disableMinimize` 选项已经被重命名为 [output.minify](/config/output/minify)，并允许自定义 JS 和 HTML 的压缩选项。

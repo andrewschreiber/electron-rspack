@@ -59,40 +59,9 @@ async function startCustomServer() {
 ```
 
 For more details, please refer to [Rsbuild - createDevServer](/api/javascript-api/instance#rsbuildcreatedevserver).
+;
 
-## 🍭 Refactoring SVGR Plugin
-
-In versions prior to 0.5.0, the default usage of the SVGR plugin was the same as create-react-app, allowing SVGs to be used via mixed import:
-
-```js
-import logoUrl, { ReactComponent as Logo } from './logo.svg';
-
-console.log(logoUrl); // -> string
-console.log(Logo); // -> React component
-```
-
-However, there are two problems with this approach:
-
-1. **Increased bundle size**: Mixed import causes a single SVG module to be compiled into two types of code (even if some exports are not used), which will increase the bundle size.
-2. **Slow down compiling**: Mixed import will cause extra compilation overhead. Even if the ReactComponent export is not used in the code, the SVG file will still be compiled by SVGR. And SVGR is based on Babel, which has a high performance overhead.
-
-So we have refactored the `@rsbuild/plugin-svgr` plugin to support converting SVGs to React components via the `?react` query. This approach can solve the problems mentioned above, and is more in line with community best practices.
-
-```jsx
-import logoUrl from './logo.svg';
-import Logo from './logo.svg?react';
-
-console.log(logoUrl); // -> string
-console.log(Logo); // -> React component
-```
-
-The SVGR plugin now supports switching between different SVGR usages. If a project needs to use the previous mixed import usage, you can manually enable the [mixedImport](/plugins/list/plugin-svgr#mixedimport) option:
-
-```js
-pluginSvgr({
-  mixedImport: true,
-});
-```
+````
 
 ## 📍 Custom Minify Options
 
@@ -110,7 +79,7 @@ export default {
     },
   },
 };
-```
+````
 
 Projects using `output.disableMinimize` can refer to the example below:
 

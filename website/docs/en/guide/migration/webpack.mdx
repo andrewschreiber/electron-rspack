@@ -101,51 +101,6 @@ Since Rsbuild has built-in some common loaders and plugins, you can remove the f
 The above only lists some of the common dependencies that can be removed. In actual webpack projects, there may be many other dependencies, please handle them as appropriate.
 :::
 
-### Using Plugins
-
-Rsbuild offers a rich set of plugins that provide out-of-the-box support for common scenarios. You can refer to the [Plugin List](/plugins/list/index) documentation to learn about these plugins.
-
-Taking a React project as an example, let's see how to integrate Rsbuild plugins. First, you can remove some React-related build dependencies that are already built into the Rsbuild React plugin, such as:
-
-- `react-refresh`
-- `@babel/preset-react`
-- `@pmmmwh/react-refresh-webpack-plugin`
-
-Then see the [React Plugin](/plugins/list/plugin-react) documentation, register it and use it as follows:
-
-```diff
-import { defineConfig } from '@rsbuild/core';
-+import { pluginReact } from '@rsbuild/plugin-react';
-
-export default {
-+  plugins: [pluginReact()],
-};
-```
-
-Most of the common webpack loaders and plugins can still be used in Rsbuild, but we recommend prioritizing the plugins provided by Rsbuild. This can further simplify your configuration. Below is their mapping relationship:
-
-| webpack                                                                                        | Rsbuild                                                                                                         |
-| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| [@babel/preset-react](https://www.npmjs.com/package/@babel/preset-react)                       | [React Plugin](/plugins/list/plugin-react)                                                                      |
-| [vue-loader](https://www.npmjs.com/package/vue-loader)                                         | [Vue Plugin](/plugins/list/plugin-vue) or [Vue 2 Plugin](https://github.com/rspack-contrib/rsbuild-plugin-vue2) |
-| [svelte-loader](https://www.npmjs.com/package/svelte-loader)                                   | [Svelte Plugin](/plugins/list/plugin-svelte)                                                                    |
-| [babel-preset-solid](https://www.npmjs.com/package/babel-preset-solid)                         | [Solid Plugin](/plugins/list/plugin-solid)                                                                      |
-| [babel-loader](https://www.npmjs.com/package/babel-loader)                                     | [Babel Plugin](/plugins/list/plugin-babel)                                                                      |
-| [sass-loader](https://www.npmjs.com/package/sass-loader)                                       | [Sass Plugin](/plugins/list/plugin-sass)                                                                        |
-| [less-loader](https://www.npmjs.com/package/less-loader)                                       | [Less Plugin](/plugins/list/plugin-less)                                                                        |
-| [stylus-loader](https://www.npmjs.com/package/stylus-loader)                                   | [Stylus Plugin](/plugins/list/plugin-stylus)                                                                    |
-| [mdx-loader](https://www.npmjs.com/package/mdx-loader)                                         | [MDX Plugin](https://github.com/rspack-contrib/rsbuild-plugin-mdx)                                              |
-| [pug-loader](https://www.npmjs.com/package/pug-loader)                                         | [Pug Plugin](https://github.com/rspack-contrib/rsbuild-plugin-pug)                                              |
-| [yaml-loader](https://www.npmjs.com/package/yaml-loader)                                       | [Yaml Plugin](https://github.com/rspack-contrib/rsbuild-plugin-yaml)                                            |
-| [toml-loader](https://www.npmjs.com/package/toml-loader)                                       | [Toml Plugin](https://github.com/rspack-contrib/rsbuild-plugin-toml)                                            |
-| [@svgr/webpack](https://www.npmjs.com/package/@svgr/webpack)                                   | [SVGR Plugin](/plugins/list/plugin-svgr)                                                                        |
-| [fork-ts-checker-webpack-plugin](https://www.npmjs.com/package/fork-ts-checker-webpack-plugin) | [@rsbuild/plugin-type-check](https://github.com/rspack-contrib/rsbuild-plugin-type-check)                       |
-| [node-polyfill-webpack-plugin](https://www.npmjs.com/package/node-polyfill-webpack-plugin)     | [Node Polyfill Plugin](https://github.com/rspack-contrib/rsbuild-plugin-node-polyfill)                          |
-| [@vue/babel-plugin-jsx](https://www.npmjs.com/package/@vue/babel-plugin-jsx)                   | [Vue JSX Plugin](https://github.com/rspack-contrib/rsbuild-plugin-vue-jsx)                                      |
-| [@vue/babel-preset-jsx](https://www.npmjs.com/package/@vue/babel-preset-jsx)                   | [Vue 2 JSX Plugin](https://github.com/rspack-contrib/rsbuild-plugin-vue2-jsx)                                   |
-| [eslint-webpack-plugin](https://www.npmjs.com/package/eslint-webpack-plugin)                   | [ESLint Plugin](https://github.com/rspack-contrib/rsbuild-plugin-eslint)                                        |
-| [babel-plugin-styled-components](https://www.npmjs.com/package/babel-plugin-styled-components) | [Styled Components Plugin](https://github.com/rsbuild-contrib/rsbuild-plugin-styled-components)                 |
-
 ### Configure Dev Server
 
 Rsbuild does not support the use of Rspack's [devServer](https://rspack.dev/config/dev-server) config. Please refer to [Rspack Dev Server](/guide/basic/server#rspack-dev-server) for replacement.

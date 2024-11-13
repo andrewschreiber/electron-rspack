@@ -59,34 +59,6 @@ React Compiler 是 React 19 引入的一个实验性编译器，它可以自动�
 
 在开始使用 React Compiler 之前，建议阅读 [React Compiler 文档](https://react.dev/learn/react-compiler)，以了解 React Compiler 的功能、当前状态和使用方法。
 
-### 如何使用
-
-在 Rsbuild 中使用 React Compiler 的步骤如下：
-
-1. 升级 `react` 和 `react-dom` 版本到 19。
-2. 目前 React Compiler 仅提供了 Babel 插件，你需要安装 [@rsbuild/plugin-babel](/plugins/list/plugin-babel) 和 [babel-plugin-react-compiler](https://www.npmjs.com/package/babel-plugin-react-compiler)。
-3. 在你的 Rsbuild 配置文件中注册 Babel 插件：
-
-```ts title="rsbuild.config.ts"
-import { defineConfig } from '@rsbuild/core';
-import { pluginBabel } from '@rsbuild/plugin-babel';
-import { pluginReact } from '@rsbuild/plugin-react';
-
-export default defineConfig({
-  plugins: [
-    pluginReact(),
-    pluginBabel({
-      include: /\.(?:jsx|tsx)$/,
-      babelLoaderOptions(opts) {
-        opts.plugins?.unshift('babel-plugin-react-compiler');
-      },
-    }),
-  ],
-});
-```
-
-> 你也可以参考 [示例项目](https://github.com/rspack-contrib/rspack-examples/tree/main/rsbuild/react-compiler-babel)。
-
 ### 配置
 
 通过以下方式来传入 React Compiler 的配置：
@@ -130,7 +102,6 @@ Rsbuild 支持编译 [styled-components](https://github.com/styled-components/st
 
 Rsbuild 支持编译 [Emotion](https://github.com/emotion-js/emotion)，你可以添加以下配置来使用：
 
-- [swcReactOptions.importSource](/plugins/list/plugin-react#swcreactoptions)
 - [@swc/plugin-emotion](https://www.npmjs.com/package/@swc/plugin-emotion)
 
 ```ts title="rsbuild.config.ts"
