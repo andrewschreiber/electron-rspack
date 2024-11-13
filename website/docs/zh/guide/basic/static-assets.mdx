@@ -6,21 +6,6 @@ Rsbuild 支持在代码中引用图片、字体、音频、视频等类型的静
 静态资源是指 Web 应用中不会发生变化的文件。常见的静态资源包括图片、字体、视频、样式表和 JavaScript 文件。这些资源通常存储在服务器或 CDN 上，当用户访问 Web 应用时会被传送到用户的浏览器。由于它们不会发生变化，静态资源可以被浏览器缓存，从而提高 Web 应用的性能。
 :::
 
-## 静态资源格式
-
-以下是 Rsbuild 默认支持的静态资源格式：
-
-- **图片**：png、jpg、jpeg、gif、svg、bmp、webp、ico、apng、avif、tif、tiff、jfif、pjpeg、pjp。
-- **字体**：woff、woff2、eot、ttf、otf、ttc。
-- **音频**：mp3、wav、flac、aac、m4a、opus。
-- **视频**：mp4、webm、ogg、mov。
-
-如果你需要引用其他格式的静态资源，请参考 [扩展静态资源类型](#扩展静态资源类型)。
-
-:::tip SVG 图片
-SVG 图片是一种特殊情况，Rsbuild 提供了 SVG 转 React 组件的能力，对 SVG 进行单独处理，详见 [SVGR 插件](/plugins/list/plugin-svgr)。
-:::
-
 ## 在 JS 文件中引用
 
 在 JS 文件中，可以直接通过 `import` 的方式引用相对路径下的静态资源：
