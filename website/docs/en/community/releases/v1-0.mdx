@@ -26,19 +26,6 @@ When we look at the npm download numbers for webpack, CRA, and Vue CLI, we find 
 
 For the webpack ecosystem, we discovered a sad fact: **the webpack ecosystem lacks a build tool that is easy to use and well maintained**. The tool should be as user-friendly as CRA and Vue CLI, fully meet the needs of CSR application development, and have features such as fast startup and plugin support similar to Vite.
 
-### The birth of Rsbuild
-
-During the development of Rspack, we became aware of the above problems and decided to create a modern build tool based on Rspack called **Rsbuild**.
-
-![](/electron-rspack-1-0-build-tools.png)
-
-Rsbuild is built on top of Rspack. We designed Rsbuild with an easy-to-use, TypeScript-friendly API and a set of carefully designed configurations to fully leverage the Rspack's build performance while reducing configuration complexity and high up-front costs.
-
-When developing Rsbuild, we learned best practices from the best tools in the community and focused on two usage scenarios:
-
-- As a lightweight build tool: Helps developers quickly setup web applications with out-of-the-box support for CSR applications.
-- As a shared infrastructure: Provides [JavaScript API](https://rsbuild.dev/api/start/) and [Plugin API](https://rsbuild.dev/plugins/dev/) for higher-level tools and frameworks, allowing developers to easily build their tools or frameworks on top of Rsbuild.
-
 ## Performance
 
 **Rsbuild is currently the fastest build tool in the webpack and Rspack ecosystem**. Here is a comparison between Rsbuild, Create React App, Vite, and Rspack CLI:
@@ -73,13 +60,3 @@ After releasing Rsbuild 1.0, we also plan to collaborate with some excellent tea
 - Rsbuild also provides migration guides for projects that use webpack, CRA, Vue CLI, etc. See [Migrate from Existing Projects](https://rsbuild.dev/guide/start/quick-start#migrate-from-existing-projects).
 
 > Give a star 🌟 to the [Rsbuild GitHub repository](https://github.com/web-infra-dev/rsbuild).
-
-## What's next
-
-Rsbuild 1.0 provides several advanced features for the development of enterprise applications and higher-level tools, such as the [multi-environment build API](https://rsbuild.dev/guide/advanced/environments), [SSR API](https://rsbuild.dev/guide/advanced/ssr), [plugin API](https://rsbuild.dev/plugins/dev/), [Module Federation support](https://rsbuild.dev/guide/advanced/module-federation), and [library build (Rslib)](https://github.com/web-infra-dev/rslib). We plan to continue to enhance these features to better support the development of the Rsbuild ecosystem.
-
-In the next 12 to 18 months, Rsbuild will evolve together with Rspack, adopting Rspack's new features as soon as they become available. These features include persistent caching, faster HMR, and TypeScript-based optimizations. For more details, see [Rspack - What's next](https://rspack.dev/blog/announcing-1-0#whats-next).
-
-Finally, a big thank you to all the developers who have contributed to Rsbuild ❤️:
-
-![](https://assets.rspack.dev/rsbuild/assets/rsbuild-1-0-contributors.png)

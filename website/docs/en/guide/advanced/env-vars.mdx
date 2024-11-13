@@ -273,10 +273,6 @@ console.log(import.meta.env.BAR); // '2'
 console.log(process.env.BAR); // '2'
 ```
 
-### Manually Load Env
-
-If you are not using the Rsbuild CLI and are using the Rsbuild [JavaScript API](/api/start/index) instead, you will need to manually call the [loadEnv](/api/javascript-api/core#loadenv) method to read env variables and inject them into the code via the [source.define](/config/source/define) config.
-
 ```ts
 import { loadEnv, mergeRsbuildConfig } from '@rsbuild/core';
 
@@ -334,8 +330,6 @@ Note that public variables will not replace identifiers in the following files:
 - CSS files, such as `.css`, `.scss`, `.less`, etc.
 
 ### Custom Prefix
-
-Rsbuild provides the [loadEnv](/api/javascript-api/core#loadenv) method, which can inject env variables with any prefix into client code.
 
 For example, when migrating a Create React App project to Rsbuild, you can read env variables starting with `REACT_APP_` and inject them through the [source.define](/config/source/define) config as follows:
 

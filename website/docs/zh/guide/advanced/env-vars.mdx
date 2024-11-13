@@ -275,8 +275,6 @@ console.log(process.env.BAR); // '2'
 
 ### 手动加载
 
-如果你没有使用 Rsbuild 的 CLI，而是使用了 Rsbuild 的 [JavaScript API](/api/start/index)，那么你需要手动调用 Rsbuild 提供的 [loadEnv](/api/javascript-api/core#loadenv) 方法来读取环境变量，并通过 [source.define](/config/source/define) 配置项注入到代码中。
-
 ```ts
 import { loadEnv, mergeRsbuildConfig } from '@rsbuild/core';
 
@@ -334,8 +332,6 @@ public 变量会替换 client 代码中的标识符，替换范围包含：
 - CSS 文件，比如 `.css`, `.scss`, `.less` 等。
 
 ### 自定义前缀
-
-Rsbuild 提供了 [loadEnv](/api/javascript-api/core#loadenv) 方法，可以把任何前缀的环境变量注入到 client 代码中。
 
 比如将一个 Create React App 项目迁移到 Rsbuild 时，你可以通过以下方式来读取 `REACT_APP_` 开头的环境变量，并通过 [source.define](/config/source/define) 配置项注入：
 

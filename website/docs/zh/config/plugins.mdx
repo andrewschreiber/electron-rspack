@@ -31,20 +31,13 @@ import { PackageManagerTabs } from '@theme';
 
 - 注册插件：
 
-```ts title="rsbuild.config.ts"
+````ts title="rsbuild.config.ts"
 import { defineConfig } from '@rsbuild/core';
 import { pluginStylus } from '@rsbuild/plugin-stylus';
 
 export default defineConfig({
   plugins: [pluginStylus()],
 });
-```
-
-## 执行顺序
-
-默认情况下，插件会按照 `plugins` 数组的顺序依次执行，Rsbuild 内置插件的执行时机早于用户注册的插件。
-
-当插件内部使用了控制顺序的相关字段，比如 `pre`、`post` 时，执行顺序会基于它们进行调整，详见 [前置插件](/plugins/dev/core#前置插件)。
 
 ## 嵌套插件
 
@@ -58,7 +51,7 @@ function myPlugin() {
 export default {
   plugins: [myPlugin()],
 };
-```
+````
 
 ## 本地插件
 

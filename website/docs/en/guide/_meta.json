@@ -6,11 +6,6 @@
   },
   {
     "type": "dir",
-    "name": "framework",
-    "label": "Framework"
-  },
-  {
-    "type": "dir",
     "name": "basic",
     "label": "Basic"
   },

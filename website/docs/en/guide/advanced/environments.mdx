@@ -133,82 +133,11 @@ rsbuild dev --environment web --environment node
 rsbuild dev --environment web,node
 ```
 
-## Add plugins for specified environment
-
-Plugins configured through the [plugins](/config/plugins) field support running in all environments. If you want a plugin to run only in a specified environment, you can configure the plugin in the specified `environment`.
-
-For example, enable the React plugin only in the web environment:
-
-```ts title=rsbuild.config.ts
-import { pluginReact } from '@rsbuild/plugin-react';
-
-export default {
-  environments: {
-    web: {
-      output: {
-        target: 'web',
-      },
-      plugins: [pluginReact()],
-    },
-    node: {
-      output: {
-        target: 'node',
-      },
-    },
-  },
-};
-```
-
-If you are a plugin developer, you can view [Developing environment plugins](/plugins/dev/index#environment-plugin) for details.
-
 ## Plugin API
-
-### Update environment config
-
-Rsbuild supports modifying or adding environment config through the [modifyRsbuildConfig](/plugins/dev/hooks#modifyrsbuildconfig) hook.
-
-```ts
-const myPlugin = () => ({
-  setup: (api) => {
-    api.modifyRsbuildConfig((config, { mergeRsbuildConfig }) => {
-      return mergeRsbuildConfig(config, {
-        environments: {
-          web1: {
-            source: {
-              entry: {
-                index: './src/web1/index',
-              },
-            },
-          },
-        },
-      });
-    });
-  },
-});
-```
-
-### Configuring a specific environment
-
-Rsbuild supports modifying the Rsbuild config of a specific environment through the [modifyEnvironmentConfig](/plugins/dev/hooks#modifyenvironmentconfig) hook.
-
-```ts
-const myPlugin = () => ({
-  setup: (api) => {
-    api.modifyEnvironmentConfig((config, { name }) => {
-      if (name !== 'web') {
-        return config;
-      }
-      config.html.title = 'My Default Title';
-    });
-  },
-});
-```
 
 ## Environment API
 
 Rsbuild server provides a series of APIs related to the build environment. Users can operate the build artifacts in a specific environment on the server side through the Rsbuild environment API.
-
-You can use the environment API in [Rsbuild DevMiddleware](/config/dev/setup-middlewares) or [Custom Server](/api/javascript-api/instance#rsbuildcreatedevserver).
 
 For example, you can quickly implement an SSR function through the Rsbuild environment API in development mode:
 
