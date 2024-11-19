@@ -1,7 +1,7 @@
 {
   "name": "electron-rspack",
   "version": "0.1.0",
-  "description": "Rspack-based build tooling for Electron projects, forked from Rsbuild",
+  "description": "Rspack-based build tooling for Electron projects",
   "homepage": "https://github.com/andrewschreiber/electron-rspack",
   "bugs": {
     "url": "https://github.com/andrewschreiber/electron-rspack/issues"
