@@ -12,43 +12,39 @@
 
 English | [Portuguese](./README.pt-BR.md) | [简体中文](./README.zh-CN.md)
 
-electron-rspack is a high-performance build tool powered by Rspack. It provides a set of thoughtfully designed default build configs, offering an out-of-the-box development experience and can fully unleash the performance advantages of Rspack.
+electron-rspack is a high-performance Electron build tool powered by Rspack. The easiest way to 10x the bundling speed of an Electron app on Webpack.
 
-Rsbuild provides [rich build features](https://rsbuild.dev/guide/start/features), including the compilation of TypeScript, JSX, Sass, Less, CSS Modules, Wasm, and others. It also supports Module Federation, image compression, type checking, PostCSS, Lightning CSS, and more.
+## 🚀 Features
 
-## 🚀 Performance
+electron-rspack offers the following features:
 
-Rsbuild can fully leverage the build performance of Rspack. Here is the time taken to build 1000 React components:
+- **Electron-Optimized**: Built specifically for Electron applications, with separate configurations for main and renderer processes.
 
-![image](https://github.com/user-attachments/assets/d1126bd1-bbb4-4fb8-a499-561dce002ba5)
+- **Powered by Rspack**: Leverages the high-performance Rust-based Rspack bundler for blazing fast builds.
 
-> The above data comes from the [performance-compare](/performance-compare) benchmark.
+- **Zero Configuration**: Start building your Electron application with minimal setup required.
 
-## 🔥 Features
+- **TypeScript Support**: First-class support for TypeScript in both main and renderer processes.
 
-Rsbuild has the following features:
+- **Hot Module Replacement**: Fast development workflow with HMR support for the renderer process.
 
-- **Easy to Configure**: One of the goals of Rsbuild is to provide out-of-the-box build capabilities for Rspack users, allowing developers to start a web project with zero configuration. In addition, Rsbuild provides semantic build configuration to reduce the learning curve for Rspack configuration.
-
-- **Performance Oriented**: Rsbuild integrates high-performance Rust-based tools from the community, including [Rspack](https://rspack.dev), [SWC](https://swc.rs/) and [Lightning CSS](https://lightningcss.dev/), to deliver first-class build speed and development experience.
-
-- **Plugin Ecosystem**: Rsbuild has a lightweight plugin system and includes a range of high-quality official plugins. Furthermore, Rsbuild is compatible with most webpack plugins and all Rspack plugins, allowing users to leverage existing community or in-house plugins in Rsbuild without the need for rewriting code.
-
-- **Stable Artifacts**: Rsbuild is designed with a strong focus on the stability of build artifacts. It ensures high consistency between artifacts in the development and production builds, and automatically completes syntax downgrading and polyfill injection. Rsbuild also provides plugins for type checking and artifact syntax validation to prevent quality and compatibility issues in production code.
-
-- **Framework Agnostic**: Rsbuild is not coupled with any front-end UI framework. It supports frameworks like React, Vue, Svelte, Solid, and Preact through plugins, and plans to support more UI frameworks from the community in the future.
-
-## 🎯 Ecosystem
-
-Rsbuild provides JavaScript API and plugin API for higher-level frameworks and tools. For example, we have implemented [Rspress](https://github.com/web-infra-dev/rspress) and [Rslib](https://github.com/web-infra-dev/rslib) based on Rsbuild, taking full advantage of its capabilities and ecosystem.
-
-The following diagram illustrates the relationship between Rsbuild and other tools in the ecosystem:
-
-![Rspack stack layers](/electron-rspack-stack-layers.png)
+- **Production Ready**: Optimized production builds with proper code splitting and minification.
 
 ## 📚 Getting Started
 
-To get started with Rsbuild, see the [Quick Start](https://rsbuild.dev/guide/start/quick-start).
+To get started with electron-rspack, see the [Quick Start](https://electron-rspack.dev/guide/start/quick-start).
+
+### Install
+
+```bash
+npm create electron-rspack@latest
+```
+
+## 🎯 Ecosystem
+
+The following diagram illustrates the relationship between Electron-Rspack and other tools in the ecosystem:
+
+![Rspack stack layers](/electron-rspack-stack-layers.png)
 
 ## 🦀 Links
 
