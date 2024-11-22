@@ -9,7 +9,6 @@
     "preview": "rspress preview"
   },
   "devDependencies": {
-    "@rsbuild/core": "workspace:*",
     "@rspress/plugin-rss": "1.34.1",
     "@types/node": "18.x",
     "@types/react": "^18.3.11",

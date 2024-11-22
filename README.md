@@ -1,4 +1,4 @@
-![Rsbuild Banner](https://github.com/user-attachments/assets/cb081787-9ab2-4615-87ad-3bb20e2936c1)
+![Electron-Rspack Banner](https://github.com/user-attachments/assets/cb081787-9ab2-4615-87ad-3bb20e2936c1)
 
 # electron-rspack
 
@@ -49,15 +49,15 @@ The following diagram illustrates the relationship between Electron-Rspack and o
 ## 🦀 Links
 
 - [Rspack](https://github.com/web-infra-dev/rspack): A fast Rust-based web bundler.
-- [Rspress](https://github.com/web-infra-dev/rspress): A fast static site generator based on Rsbuild.
+- [Rspress](https://github.com/web-infra-dev/rspress): A fast static site generator based on Electron-Rspack.
 - [Rsdoctor](https://github.com/web-infra-dev/rsdoctor): A one-stop build analyzer for Rspack and webpack.
-- [Rslib](https://github.com/web-infra-dev/rslib): The library build tool powered by Rsbuild.
-- [Modern.js](https://github.com/web-infra-dev/modern.js): A progressive React framework based on Rsbuild.
-- [awesome-rspack](https://github.com/web-infra-dev/awesome-rspack): A curated list of awesome things related to Rspack and Rsbuild.
-- [rspack-examples](https://github.com/rspack-contrib/rspack-examples): Examples for Rspack, Rsbuild, Rspress and Rsdoctor.
-- [storybook-rsbuild](https://github.com/rspack-contrib/storybook-rsbuild): Storybook builder powered by Rsbuild.
-- [rsbuild-plugin-template](https://github.com/rspack-contrib/rsbuild-plugin-template)：Use this template to create your own Rsbuild plugin.
-- [rstack-design-resources](https://github.com/rspack-contrib/rstack-design-resources)：Design resources for Rspack, Rsbuild, Rspress and Rsdoctor.
+- [Rslib](https://github.com/web-infra-dev/rslib): The library build tool powered by Electron-Rspack.
+- [Modern.js](https://github.com/web-infra-dev/modern.js): A progressive React framework based on Electron-Rspack.
+- [awesome-rspack](https://github.com/web-infra-dev/awesome-rspack): A curated list of awesome things related to Rspack and Electron-Rspack.
+- [rspack-examples](https://github.com/rspack-contrib/rspack-examples): Examples for Rspack, Electron-Rspack, Rspress and Rsdoctor.
+- [storybook-rsbuild](https://github.com/rspack-contrib/storybook-rsbuild): Storybook builder powered by Electron-Rspack.
+- [rsbuild-plugin-template](https://github.com/rspack-contrib/rsbuild-plugin-template)：Use this template to create your own Electron-Rspack plugin.
+- [rstack-design-resources](https://github.com/rspack-contrib/rstack-design-resources)：Design resources for Rspack, Electron-Rspack, Rspress and Rsdoctor.
 
 ## 🤝 Contribution
 
@@ -118,22 +118,22 @@ This repo has adopted the ByteDance Open Source Code of Conduct. Please check [C
 
 ## 🧑‍💻 Community
 
-Come and chat with us on [Discord](https://discord.gg/XsaKEEk4mW)! The Rspack / Rsbuild team and users are active there, and we're always looking for contributions.
+Come and chat with us on [Discord](https://discord.gg/XsaKEEk4mW)! The Rspack / Electron-Rspack team and users are active there, and we're always looking for contributions.
 
 ## 🌟 Quality
 
-Rsbuild uses [Web Infra QoS](https://web-infra-qos.netlify.app?product=rsbuild&metrics=bundle-size) to observe the trend of key metrics, such as bundle size, compile speed and install size.
+Electron-Rspack uses [Web Infra QoS](https://web-infra-qos.netlify.app?product=rsbuild&metrics=bundle-size) to observe the trend of key metrics, such as bundle size, compile speed and install size.
 
 ## 🙏 Credits
 
-Some of the implementations of Rsbuild have drawn inspiration from outstanding projects in the community. We would like to express our gratitude to them:
+Some of the implementations of Electron-Rspack have drawn inspiration from outstanding projects in the community. We would like to express our gratitude to them:
 
 - The implementation of some plugins is referenced from [create-react-app](https://github.com/facebook/create-react-app).
 - Some utility functions are referenced from [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin).
 - The design of some APIs is referenced from [vite](https://github.com/vitejs/vite).
 
-This Rsbuild website is powered by [Netlify](https://www.netlify.com/).
+This Electron-Rspack website is powered by [Netlify](https://www.netlify.com/).
 
 ## 📖 License
 
-Rsbuild is licensed under the [MIT License](https://github.com/web-infra-dev/rsbuild/blob/main/LICENSE).
+Electron-Rspack is licensed under the [MIT License](https://github.com/web-infra-dev/rsbuild/blob/main/LICENSE).
